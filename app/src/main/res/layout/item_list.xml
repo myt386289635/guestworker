@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View"/>
+
+        <variable
+            name="date"
+            type="com.guestworker.bean.ListBean.GoodsListBean"/>
+
+    </data>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/item_iamge"
+            bind:srcRound="@{date.thumbnail}"
+            android:layout_marginBottom="@dimen/y48"
+            android:layout_marginTop="@dimen/y48"
+            android:layout_marginLeft="@dimen/x28"
+            android:layout_width="@dimen/x226"
+            android:layout_height="@dimen/y240"/>
+
+
+        <View
+            android:layout_marginRight="@dimen/x28"
+            android:layout_marginLeft="@dimen/x28"
+            android:layout_below="@+id/item_iamge"
+            android:background="@color/color_F5F5F5"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y2"/>
+
+        <TextView
+            android:id="@+id/item_name"
+            android:layout_marginRight="@dimen/x28"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="@color/color_DE090909"
+            android:lineSpacingExtra="@dimen/y8"
+            android:textSize="13sp"
+            android:text="@{date.gname,default=你好啊啊啊啊啊啊啊啊你好啊啊啊啊啊啊啊啊}"
+            android:layout_marginLeft="@dimen/x24"
+            android:layout_alignTop="@+id/item_iamge"
+            android:layout_toRightOf="@+id/item_iamge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/item_price"
+            android:layout_marginBottom="@dimen/y8"
+            android:layout_marginLeft="@dimen/x24"
+            android:layout_toRightOf="@+id/item_iamge"
+            android:layout_alignBottom="@+id/item_iamge"
+            android:textSize="15sp"
+            android:textColor="@color/color_DC3D27"
+            bind:price="@{date.price}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <com.guestworker.view.textView.TextViewDel
+            android:visibility="@{date.tagprice == 0 ?  View.GONE : View.VISIBLE}"
+            android:layout_marginLeft="@dimen/x24"
+            android:layout_marginBottom="@dimen/y2"
+            android:layout_alignBottom="@+id/item_price"
+            android:layout_toRightOf="@+id/item_price"
+            android:textColor="@color/color_959595"
+            android:textSize="13sp"
+            android:id="@+id/item_cost"
+            bind:oldPrice="@{date.tagprice}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:visibility="gone"
+            android:layout_marginLeft="@dimen/x24"
+            android:layout_below="@+id/item_name"
+            android:layout_above="@+id/item_price"
+            android:layout_toRightOf="@+id/item_iamge"
+            android:id="@+id/item_flex"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:alignItems="center"
+            app:flexWrap="wrap"
+            app:justifyContent="flex_start"/>
+
+
+    </RelativeLayout>
+</layout>

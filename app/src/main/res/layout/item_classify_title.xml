@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <RelativeLayout
+        android:id="@+id/item_container"
+        android:background="@color/color_F6F6F6"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y102">
+        
+        
+        <ImageView
+            android:id="@+id/item_tag"
+            android:layout_centerVertical="true"
+            android:background="@color/color_DC3D27"
+            android:layout_width="@dimen/x8"
+            android:layout_height="@dimen/y30"/>
+
+        <TextView
+            android:gravity="center"
+            android:layout_toRightOf="@+id/item_tag"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:id="@+id/item_classify"
+            android:textColor="@color/color_DE090909"
+            android:textSize="14sp"
+            android:text="个性化女装"
+            android:layout_centerVertical="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+
+</layout>

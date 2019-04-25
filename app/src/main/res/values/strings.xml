@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">客工app</string>
+
+    <string name="price">¥</string>
+    
+    <string name="salesvolumesStart">月售</string>
+    <string name="salesvolumesEnd">件</string>
+
+    <string name="setting">设置</string>
+    <string name="resume">恢复</string>
+    <string name="cancel">取消</string>
+    <string name="title_dialog">温馨提示</string>
+    <string name="message_setting_comeback">用户从设置页面回来</string>
+    <string name="message_permission_rationale">“客工”需要获取以下权限：\n\n%1$s</string>
+</resources>

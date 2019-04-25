@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/item_container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:paddingBottom="@dimen/y4"
+        android:paddingTop="@dimen/y4"
+        android:paddingRight="@dimen/x12"
+        android:paddingLeft="@dimen/x12"
+        android:layout_marginBottom="@dimen/y3"
+        android:layout_marginTop="@dimen/y3"
+        android:layout_marginRight="@dimen/x16"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:id="@+id/item_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_tag"
+        android:text="秒杀"
+        android:textColor="@color/color_DC3D27"
+        android:textSize="11sp"/>
+
+</LinearLayout>

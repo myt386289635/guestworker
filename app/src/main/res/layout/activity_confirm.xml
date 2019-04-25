@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="listener"
+            type="android.view.View.OnClickListener"/>
+
+
+        <variable
+            name="date"
+            type="com.guestworker.bean.DetailBean.DefaultgoodsBean"/>
+
+        <variable
+            name="user"
+            type="com.guestworker.bean.AreaUserBean.AreaMemberListBean"/>
+
+    </data>
+
+    <RelativeLayout
+        android:background="@color/color_white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/in_clude"
+            layout="@layout/common_title"
+            bind:listener="@{listener}"/>
+
+        <ImageView
+            android:layout_marginRight="@dimen/x24"
+            bind:srcRound="@{date.thumbnail}"
+            android:id="@+id/confirm_image"
+            android:layout_marginBottom="@dimen/y32"
+            android:layout_marginTop="@dimen/y32"
+            android:layout_marginLeft="@dimen/x28"
+            android:layout_below="@+id/in_clude"
+            android:layout_width="@dimen/x226"
+            android:layout_height="@dimen/y240"/>
+
+        <TextView
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:id="@+id/confirm_name"
+            android:textColor="@color/color_DE090909"
+            android:textSize="13sp"
+            android:layout_marginRight="@dimen/x28"
+            android:lineSpacingExtra="@dimen/y6"
+            android:text="@{date.gname , default = 苏泊尔榨汁机家用果汁机TJE06A榨汁机家用果汁机TJE06A}"
+            android:layout_alignTop="@+id/confirm_image"
+            android:layout_toRightOf="@+id/confirm_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <RelativeLayout
+            android:layout_marginRight="@dimen/x28"
+            android:layout_marginTop="@dimen/y48"
+            android:layout_below="@+id/confirm_name"
+            android:layout_toRightOf="@+id/confirm_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/confirm_price"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="@color/color_DC3D27"
+                bind:price="@{date.price}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+            <TextView
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:id="@+id/confirm_number"
+                android:textSize="13sp"
+                android:textColor="@color/color_959595"
+                android:text="x1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </RelativeLayout>
+
+        <View
+            android:background="@color/color_F5F5F5"
+            android:layout_below="@+id/confirm_image"
+            android:layout_marginRight="@dimen/x28"
+            android:layout_marginLeft="@dimen/x28"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y2"/>
+
+        <RelativeLayout
+            android:id="@+id/confirm_addContainer"
+            android:layout_below="@+id/confirm_image"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y132">
+
+
+            <TextView
+                android:layout_marginLeft="@dimen/x28"
+                android:layout_centerVertical="true"
+                android:textColor="@color/color_DE1A1A1A"
+                android:textSize="14sp"
+                android:text="数量"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+            <RelativeLayout
+                android:id="@+id/confirm_numContanier"
+                android:background="@drawable/bg_confirm"
+                android:layout_marginRight="@dimen/x28"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/y60">
+
+                <View
+                    android:id="@+id/line1"
+                    android:layout_marginLeft="@dimen/x76"
+                    android:background="@color/color_F0F0F0"
+                    android:layout_width="@dimen/x2"
+                    android:layout_height="match_parent"/>
+
+                <View
+                    android:layout_marginRight="@dimen/x76"
+                    android:layout_toRightOf="@+id/line1"
+                    android:id="@+id/line2"
+                    android:layout_marginLeft="@dimen/x76"
+                    android:background="@color/color_F0F0F0"
+                    android:layout_width="@dimen/x2"
+                    android:layout_height="match_parent"/>
+
+                <ImageView
+                    android:onClick="@{listener.onClick}"
+                    android:paddingBottom="@dimen/y10"
+                    android:paddingTop="@dimen/y10"
+                    android:paddingRight="@dimen/x20"
+                    android:paddingLeft="@dimen/x20"
+                    android:src="@mipmap/confirm_decrease"
+                    android:id="@+id/confirm_decrease"
+                    android:layout_alignRight="@+id/line1"
+                    android:layout_alignParentLeft="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+
+                <TextView
+                    android:textColor="@color/color_ACACAC"
+                    android:textSize="15sp"
+                    android:layout_alignRight="@+id/line2"
+                    android:layout_alignLeft="@+id/line1"
+                    android:gravity="center"
+                    android:id="@+id/confirm_num"
+                    android:text="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+
+                <ImageView
+                    android:onClick="@{listener.onClick}"
+                    android:paddingBottom="@dimen/y10"
+                    android:paddingTop="@dimen/y10"
+                    android:paddingRight="@dimen/x20"
+                    android:paddingLeft="@dimen/x20"
+                    android:src="@mipmap/confirm_increase"
+                    android:layout_alignLeft="@+id/line2"
+                    android:id="@+id/confirm_increase"
+                    android:layout_width="@dimen/x76"
+                    android:layout_height="match_parent"/>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/confirm_tag"
+            android:layout_below="@+id/confirm_addContainer"
+            android:background="@color/color_F5F5F5"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y12"/>
+
+        <LinearLayout
+            android:layout_below="@+id/confirm_tag"
+            android:id="@+id/confirm_userAllContainer"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:onClick="@{listener.onClick}"
+                android:id="@+id/confirm_userContainer"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y114">
+
+                <TextView
+                    android:layout_marginLeft="@dimen/x28"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/color_DE1A1A1A"
+                    android:textSize="15sp"
+                    android:text="选择购买用户"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+
+                <ImageView
+                    android:paddingLeft="@dimen/x28"
+                    android:src="@mipmap/right"
+                    android:id="@+id/setting_opinionImage"
+                    android:paddingRight="@dimen/x28"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:visibility="gone"
+                android:onClick="@{listener.onClick}"
+                android:id="@+id/confirm_confirmUserContainer"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y172">
+
+                <ImageView
+                    bind:headImg="@{user.userheadpath}"
+                    android:layout_marginLeft="@dimen/x28"
+                    android:layout_centerVertical="true"
+                    android:id="@+id/user_image"
+                    android:layout_width="@dimen/x66"
+                    android:layout_height="@dimen/y66"/>
+
+
+                <TextView
+                    android:layout_marginLeft="@dimen/x18"
+                    android:layout_marginTop="@dimen/y36"
+                    android:layout_toRightOf="@+id/user_image"
+                    android:id="@+id/user_phone"
+                    android:textSize="15sp"
+                    android:textColor="@color/color_DE1A1A1A"
+                    android:text="@{user.mobile}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:gravity="center_vertical"
+                    android:layout_toLeftOf="@+id/confirm_right"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="@dimen/x18"
+                    android:layout_marginBottom="@dimen/y36"
+                    android:layout_toRightOf="@+id/user_image"
+                    android:id="@+id/user_address"
+                    android:textSize="13sp"
+                    android:drawableLeft="@mipmap/address"
+                    android:drawablePadding="@dimen/x12"
+                    android:textColor="@color/color_DE1A1A1A"
+                    android:text="@{user.address}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <ImageView
+                    android:id="@+id/confirm_right"
+                    android:paddingLeft="@dimen/x28"
+                    android:src="@mipmap/right"
+                    android:paddingRight="@dimen/x28"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_below="@+id/confirm_userAllContainer"
+            android:background="@color/color_F5F5F5"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y12"/>
+
+        <RelativeLayout
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y100">
+
+            <View
+                android:background="@color/color_F5F5F5"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y2"/>
+
+
+            <TextView
+                android:onClick="@{listener.onClick}"
+                android:id="@+id/confirm_buy"
+                android:layout_marginRight="@dimen/x28"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="13sp"
+                android:text="前往支付"
+                android:textColor="@color/color_white"
+                android:background="@drawable/bg_buy"
+                android:layout_width="@dimen/x160"
+                android:layout_height="@dimen/y76"/>
+
+
+            <TextView
+                android:onClick="@{listener.onClick}"
+                android:id="@+id/confirm_pay"
+                android:layout_marginRight="@dimen/x28"
+                android:layout_toLeftOf="@+id/confirm_buy"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="13sp"
+                android:text="生成付款码"
+                android:textColor="@color/color_white"
+                android:background="@drawable/bg_bule"
+                android:layout_width="@dimen/x160"
+                android:layout_height="@dimen/y76"/>
+
+
+            <TextView
+                android:id="@+id/confirm_paytag"
+                android:layout_marginLeft="@dimen/x28"
+                android:layout_centerVertical="true"
+                android:textColor="@color/color_DE090909"
+                android:textSize="12sp"
+                android:text="实付款："
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/confirm_money"
+                android:layout_marginRight="@dimen/x10"
+                android:layout_toLeftOf="@+id/confirm_pay"
+                android:layout_toRightOf="@+id/confirm_paytag"
+                android:layout_centerVertical="true"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:textColor="@color/color_DC3D27"
+                android:text="¥0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+        </RelativeLayout>
+        
+        
+    </RelativeLayout>
+</layout>
