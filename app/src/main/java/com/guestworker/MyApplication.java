@@ -7,6 +7,7 @@ import android.support.multidex.MultiDex;
 import com.blankj.utilcode.util.Utils;
 import com.guestworker.netwrok.ApplicationComponent;
 import com.guestworker.netwrok.DaggerApplicationComponent;
+import com.guestworker.util.DebugHelper;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.socialize.PlatformConfig;
 
@@ -28,6 +29,7 @@ public class MyApplication extends Application {
                 DaggerApplicationComponent
                         .create();
         Utils.init(instance);
+        DebugHelper.syncIsDebug(this);
         //初始化友盟
         UMConfigure.setLogEnabled(true);
         UMConfigure.init(this, "5cc030654ca357ce9a0001b9","umeng",UMConfigure.DEVICE_TYPE_PHONE, "");
