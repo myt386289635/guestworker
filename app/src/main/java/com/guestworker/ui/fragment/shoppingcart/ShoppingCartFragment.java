@@ -133,8 +133,34 @@ public class ShoppingCartFragment extends BaseFragment implements View.OnClickLi
             case R.id.cart_buy:
                 if (mBinding.cartBuy.getText().toString().equals("前往支付")){
                     //前往支付
-                    // TODO: 2019/4/23 前往支付
-
+                    if (mMemberBean == null){
+                        ToastUtil.show("请选择购买用户");
+                        return;
+                    }
+                    for (int i = 0; i < mList.size(); i++) {
+                        if (mList.get(i).getSelect()){
+                            break;
+                        } else if (i == mList.size() - 1) {
+                            ToastUtil.show("请选择商品");
+                            return;
+                        }
+                    }
+                    mDialog = (new ProgressDialogView()).createLoadingDialog(getContext(), "");
+                    mDialog.show();
+                    OrderBean bean = new OrderBean();
+                    List<OrderBean.GoodsInfoBean> goodsInfoBeans = new ArrayList<>();
+                    for (ShoppingCartBean shoppingCartBean : mList) {
+                        if (shoppingCartBean.getSelect()){
+                            OrderBean.GoodsInfoBean goodsInfoBean = new OrderBean.GoodsInfoBean();
+                            goodsInfoBean.setGoodsCount(shoppingCartBean.getCartBean().getNum());
+                            goodsInfoBean.setGoodsID(shoppingCartBean.getCartBean().getBean().getDefaultgoods().getGid());
+                            goodsInfoBeans.add(goodsInfoBean);
+                        }
+                    }
+                    bean.setGoodsInfo(goodsInfoBeans);
+                    bean.setAddressID(mMemberBean.getUaid());
+                    bean.setUserID(mMemberBean.getUserid());
+                    mPresenter.orderSave(bean,"APP",this.bindToLifecycle());
                 }else {
                     //删除
                     for (int i = mList.size() - 1; i >= 0; i--) {
@@ -184,7 +210,7 @@ public class ShoppingCartFragment extends BaseFragment implements View.OnClickLi
                 bean.setGoodsInfo(goodsInfoBeans);
                 bean.setAddressID(mMemberBean.getUaid());
                 bean.setUserID(mMemberBean.getUserid());
-                mPresenter.orderSave(bean,this.bindToLifecycle());
+                mPresenter.orderSave(bean,"NATIVE",this.bindToLifecycle());
                 break;
             case R.id.cart_selectContainer:
                 //全选
@@ -383,10 +409,12 @@ public class ShoppingCartFragment extends BaseFragment implements View.OnClickLi
     }
 
     @Override
-    public void onSuccess(OrderSaveBean bean) {
+    public void onSuccess(OrderSaveBean bean,String type) {
         //订单生成成功
-        orderID = bean.getOrderID();
-        mPresenter.payCode(bean.getOrderID(),this.bindToLifecycle());
+        if (type.equals("NATIVE")){
+            orderID = bean.getOrderID();
+        }
+        mPresenter.payCode(bean.getOrderID(),type,this.bindToLifecycle());
     }
 
     @Override
@@ -398,25 +426,32 @@ public class ShoppingCartFragment extends BaseFragment implements View.OnClickLi
     }
 
     @Override
-    public void onPaySuccess(PayCodeBean bean) {
-        //打开轮训
-        mHandler.sendEmptyMessage(100);
-        int widthPix = (int) getContext().getResources().getDimension(R.dimen.x242);
-        int heightPix = (int) getContext().getResources().getDimension(R.dimen.y242);
-        Bitmap bitmap =  QRCodeUtil.createQRImage(bean.getData().getCode_url(),widthPix,heightPix,null);
-        payDialog = DialogUtil.payDialog(getContext(), bitmap, v12 -> {
-            orderID = "";
-            mHandler.removeCallbacksAndMessages(null);
-            saveImageToGallery(bitmap);
-        }, dialog -> {
-            DialogUtil.LoginDialog(getContext(), "支付未完成，关闭后无法清空购物车", "确定", "取消", v -> {
+    public void onPaySuccess(PayCodeBean bean,String tradeType) {
+        if (tradeType.equals("NATIVE")){
+            //打开轮训
+            mHandler.sendEmptyMessage(100);
+            int widthPix = (int) getContext().getResources().getDimension(R.dimen.x242);
+            int heightPix = (int) getContext().getResources().getDimension(R.dimen.y242);
+            Bitmap bitmap =  QRCodeUtil.createQRImage(bean.getData().getCode_url(),widthPix,heightPix,null);
+            payDialog = DialogUtil.payDialog(getContext(), bitmap, v12 -> {
                 orderID = "";
                 mHandler.removeCallbacksAndMessages(null);
-                if (payDialog != null && payDialog.isShowing()){
-                    payDialog.dismiss();
-                }
+                saveImageToGallery(bitmap);
+            }, dialog -> {
+                DialogUtil.LoginDialog(getContext(), "支付未完成，关闭后无法清空购物车", "确定", "取消", v -> {
+                    orderID = "";
+                    mHandler.removeCallbacksAndMessages(null);
+                    if (payDialog != null && payDialog.isShowing()){
+                        payDialog.dismiss();
+                    }
+                });
             });
-        });
+        }else {
+            //app
+            DialogUtil.LoginDialog(getContext(), "“客工”想要打开“微信支付”", "打开", "取消", v1 -> {
+                // TODO: 2019/4/20 前往支付
+            });
+        }
         if (mDialog != null && mDialog.isShowing()){
             mDialog.dismiss();
         }

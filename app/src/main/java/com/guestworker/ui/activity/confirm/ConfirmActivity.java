@@ -105,12 +105,6 @@ public class ConfirmActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.confirm_buy:
                 //前往支付
-                DialogUtil.LoginDialog(this, "“客工”想要打开“微信支付”", "打开", "取消", v1 -> {
-                    // TODO: 2019/4/20 前往支付
-                });
-                break;
-            case R.id.confirm_pay:
-                //生成付款码
                 if (mBean == null){
                     ToastUtil.show("请选择购买用户");
                     return;
@@ -131,7 +125,31 @@ public class ConfirmActivity extends BaseActivity implements View.OnClickListene
                 bean.setGoodsInfo(goodsInfoBeans);
                 bean.setAddressID(mBean.getUaid());
                 bean.setUserID(mBean.getUserid());
-                mPresenter.orderSave(bean,this.bindToLifecycle());
+                mPresenter.orderSave(bean,"APP",this.bindToLifecycle());
+                break;
+            case R.id.confirm_pay:
+                //生成付款码
+                if (mBean == null){
+                    ToastUtil.show("请选择购买用户");
+                    return;
+                }
+                if (mDetailBean == null){
+                    ToastUtil.show("数据请求错误，请重新进入页面");
+                    return;
+                }
+                mDialog = (new ProgressDialogView()).createLoadingDialog(this, "");
+                mDialog.show();
+                OrderBean bean1 = new OrderBean();
+                List<OrderBean.GoodsInfoBean> goodsInfoBeans1 = new ArrayList<>();
+                OrderBean.GoodsInfoBean goodsInfoBean1 = new OrderBean.GoodsInfoBean();
+                BigDecimal number1 = new BigDecimal(mBinding.confirmNum.getText().toString());
+                goodsInfoBean1.setGoodsCount(number1.intValue());
+                goodsInfoBean1.setGoodsID(mDetailBean.getDefaultgoods().getGid());
+                goodsInfoBeans1.add(goodsInfoBean1);
+                bean1.setGoodsInfo(goodsInfoBeans1);
+                bean1.setAddressID(mBean.getUaid());
+                bean1.setUserID(mBean.getUserid());
+                mPresenter.orderSave(bean1,"NATIVE",this.bindToLifecycle());
                 break;
         }
     }
@@ -177,9 +195,9 @@ public class ConfirmActivity extends BaseActivity implements View.OnClickListene
     }
 
     @Override
-    public void onSuccess(OrderSaveBean bean) {
+    public void onSuccess(OrderSaveBean bean, String tradeType) {
         //订单生成成功
-        mPresenter.payCode(bean.getOrderID(),this.bindToLifecycle());
+        mPresenter.payCode(bean.getOrderID(),tradeType,this.bindToLifecycle());
     }
 
     @Override
@@ -191,13 +209,20 @@ public class ConfirmActivity extends BaseActivity implements View.OnClickListene
     }
 
     @Override
-    public void onPaySuccess(PayCodeBean bean) {
-        int widthPix = (int) getResources().getDimension(R.dimen.x242);
-        int heightPix = (int) getResources().getDimension(R.dimen.y242);
-        Bitmap bitmap =  QRCodeUtil.createQRImage(bean.getData().getCode_url(),widthPix,heightPix,null);
-        DialogUtil.payDialog(this, bitmap, v12 -> {
-            saveImageToGallery(bitmap);
-        }, dialog -> dialog.dismiss());
+    public void onPaySuccess(PayCodeBean bean, String tradeType) {
+        if (tradeType.equals("NATIVE")){
+            int widthPix = (int) getResources().getDimension(R.dimen.x242);
+            int heightPix = (int) getResources().getDimension(R.dimen.y242);
+            Bitmap bitmap =  QRCodeUtil.createQRImage(bean.getData().getCode_url(),widthPix,heightPix,null);
+            DialogUtil.payDialog(this, bitmap, v12 -> {
+                saveImageToGallery(bitmap);
+            }, dialog -> dialog.dismiss());
+        }else {
+            //app
+            DialogUtil.LoginDialog(this, "“客工”想要打开“微信支付”", "打开", "取消", v1 -> {
+                // TODO: 2019/4/20 前往支付
+            });
+        }
         if (mDialog != null && mDialog.isShowing()){
             mDialog.dismiss();
         }

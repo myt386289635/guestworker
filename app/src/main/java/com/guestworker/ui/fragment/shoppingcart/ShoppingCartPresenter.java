@@ -148,7 +148,7 @@ public class ShoppingCartPresenter {
     /**
      * 生成订单
      */
-    public void orderSave(OrderBean bean, LifecycleTransformer<OrderSaveBean> transformer){
+    public void orderSave(OrderBean bean,String type, LifecycleTransformer<OrderSaveBean> transformer){
         mRepository.orderSave(bean)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -156,7 +156,7 @@ public class ShoppingCartPresenter {
                 .subscribe(orderSaveBean -> {
                     if (orderSaveBean.isSuccess()){
                         if (mView != null){
-                            mView.onSuccess(orderSaveBean);
+                            mView.onSuccess(orderSaveBean,type);
                         }
                     }else {
                         if (mView != null){
@@ -173,15 +173,15 @@ public class ShoppingCartPresenter {
     /**
      * 生成二维码
      */
-    public void payCode(String tradeNo, LifecycleTransformer<PayCodeBean> transformer){
-        mRepository.payCode(tradeNo)
+    public void payCode(String tradeNo,String tradeType, LifecycleTransformer<PayCodeBean> transformer){
+        mRepository.payCode(tradeNo,tradeType)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(transformer)
                 .subscribe(payCodeBean -> {
                     if (payCodeBean.isSuccess()){
                         if (mView != null){
-                            mView.onPaySuccess(payCodeBean);
+                            mView.onPaySuccess(payCodeBean,tradeType);
                         }
                     }else {
                         if (mView != null){

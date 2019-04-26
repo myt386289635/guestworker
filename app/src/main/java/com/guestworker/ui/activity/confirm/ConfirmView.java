@@ -9,9 +9,9 @@ import com.guestworker.bean.PayCodeBean;
  * @Describe
  */
 public interface ConfirmView {
-    void onSuccess(OrderSaveBean bean);
+    void onSuccess(OrderSaveBean bean, String tradeType);
     void onFile(String error);
 
-    void onPaySuccess(PayCodeBean bean);
+    void onPaySuccess(PayCodeBean bean, String tradeType);
     void onPayFile(String error);
 }

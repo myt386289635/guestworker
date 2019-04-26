@@ -102,8 +102,8 @@ public class Repository {
     /**
      * 生成二维码链接
      */
-    public Observable<PayCodeBean> payCode(String tradeNo){
-        return mAPIService.payCode(tradeNo,1,"NATIVE");
+    public Observable<PayCodeBean> payCode(String tradeNo,String tradeType){
+        return mAPIService.payCode(tradeNo,1,tradeType);
     }
 
     /**
