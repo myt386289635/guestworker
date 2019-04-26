@@ -195,9 +195,9 @@ public class ConfirmActivity extends BaseActivity implements View.OnClickListene
         int widthPix = (int) getResources().getDimension(R.dimen.x242);
         int heightPix = (int) getResources().getDimension(R.dimen.y242);
         Bitmap bitmap =  QRCodeUtil.createQRImage(bean.getData().getCode_url(),widthPix,heightPix,null);
-        DialogUtil.payDialog(this,bitmap, v12 -> {
+        DialogUtil.payDialog(this, bitmap, v12 -> {
             saveImageToGallery(bitmap);
-        });
+        }, dialog -> dialog.dismiss());
         if (mDialog != null && mDialog.isShowing()){
             mDialog.dismiss();
         }

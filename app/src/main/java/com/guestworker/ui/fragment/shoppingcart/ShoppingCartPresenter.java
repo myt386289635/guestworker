@@ -9,6 +9,7 @@ import com.guestworker.R;
 import com.guestworker.bean.OrderBean;
 import com.guestworker.bean.OrderSaveBean;
 import com.guestworker.bean.PayCodeBean;
+import com.guestworker.bean.PayResultBean;
 import com.guestworker.bean.ShoppingCartBean;
 import com.guestworker.databinding.FragmentCartBinding;
 import com.guestworker.netwrok.Repository;
@@ -20,7 +21,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -192,6 +192,25 @@ public class ShoppingCartPresenter {
                     if (mView != null){
                         mView.onPayFile(throwable.getMessage());
                     }
+                });
+    }
+
+    /**
+     * 支付回调轮训
+     */
+    public void payResult(String orderID , String userID, LifecycleTransformer<PayResultBean> transformer){
+        mRepository.payResult(orderID, userID)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(transformer)
+                .subscribe(payResultBean -> {
+                    if (payResultBean.isSuccess()){
+                        if (mView != null){
+                            mView.onPayResultSuc(payResultBean);
+                        }
+                    }
+                }, throwable -> {
+
                 });
     }
 

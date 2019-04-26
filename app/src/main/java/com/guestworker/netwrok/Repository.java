@@ -10,6 +10,7 @@ import com.guestworker.bean.MyUserBean;
 import com.guestworker.bean.OrderBean;
 import com.guestworker.bean.OrderSaveBean;
 import com.guestworker.bean.PayCodeBean;
+import com.guestworker.bean.PayResultBean;
 import com.guestworker.bean.SystemBean;
 import com.guestworker.bean.UserInfoBean;
 
@@ -103,6 +104,13 @@ public class Repository {
      */
     public Observable<PayCodeBean> payCode(String tradeNo){
         return mAPIService.payCode(tradeNo,1,"NATIVE");
+    }
+
+    /**
+     * 用户获取订单明细(用于扫码支付后的回调)
+     */
+    public Observable<PayResultBean> payResult(String orderID , String userID){
+        return mAPIService.payResult(orderID,userID);
     }
 
 }

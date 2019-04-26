@@ -2,10 +2,17 @@ package com.guestworker.ui.fragment.shoppingcart;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +28,7 @@ import com.guestworker.bean.CartBean;
 import com.guestworker.bean.OrderBean;
 import com.guestworker.bean.OrderSaveBean;
 import com.guestworker.bean.PayCodeBean;
+import com.guestworker.bean.PayResultBean;
 import com.guestworker.bean.ShoppingCartBean;
 import com.guestworker.bean.eventbus.AddCartBus;
 import com.guestworker.bean.eventbus.RefreshCartBus;
@@ -29,11 +37,13 @@ import com.guestworker.ui.activity.user.areaMembers.AreaUserActivity;
 import com.guestworker.util.FileManager;
 import com.guestworker.util.QRCodeUtil;
 import com.guestworker.util.ToastUtil;
+import com.guestworker.util.WeakRefHandler;
 import com.guestworker.util.cookie.GsonUtils;
 import com.guestworker.util.permission.HasPermissionsUtil;
 import com.guestworker.util.sp.CommonDate;
 import com.guestworker.view.dialog.DialogUtil;
 import com.guestworker.view.dialog.ProgressDialogView;
+import com.trello.rxlifecycle2.android.FragmentEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -61,6 +71,21 @@ public class ShoppingCartFragment extends BaseFragment implements View.OnClickLi
     private Dialog mDialog;
     private AreaUserBean.AreaMemberListBean mMemberBean;
     private Boolean once = true;//记录第一次进入页面标示
+    private String orderID = "";
+    private Dialog payDialog;
+    private Handler.Callback mCallback = new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            if(msg.what == 100){
+                if (!TextUtils.isEmpty(orderID)){
+                    mPresenter.payResult(orderID,mMemberBean.getUserid() + "",ShoppingCartFragment.this.bindUntilEvent(FragmentEvent.DESTROY_VIEW));
+                    mHandler.sendEmptyMessageDelayed(100,1000);
+                }
+            }
+            return true;
+        }
+    };
+    private Handler mHandler = new WeakRefHandler(mCallback, Looper.getMainLooper());
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -307,6 +332,7 @@ public class ShoppingCartFragment extends BaseFragment implements View.OnClickLi
     public void onDestroyView() {
         super.onDestroyView();
         EventBus.getDefault().unregister(this);
+        mHandler.removeCallbacksAndMessages(null);
     }
 
     /**
@@ -359,6 +385,7 @@ public class ShoppingCartFragment extends BaseFragment implements View.OnClickLi
     @Override
     public void onSuccess(OrderSaveBean bean) {
         //订单生成成功
+        orderID = bean.getOrderID();
         mPresenter.payCode(bean.getOrderID(),this.bindToLifecycle());
     }
 
@@ -372,11 +399,23 @@ public class ShoppingCartFragment extends BaseFragment implements View.OnClickLi
 
     @Override
     public void onPaySuccess(PayCodeBean bean) {
+        //打开轮训
+        mHandler.sendEmptyMessage(100);
         int widthPix = (int) getContext().getResources().getDimension(R.dimen.x242);
         int heightPix = (int) getContext().getResources().getDimension(R.dimen.y242);
         Bitmap bitmap =  QRCodeUtil.createQRImage(bean.getData().getCode_url(),widthPix,heightPix,null);
-        DialogUtil.payDialog(getContext(),bitmap, v12 -> {
+        payDialog = DialogUtil.payDialog(getContext(), bitmap, v12 -> {
+            orderID = "";
+            mHandler.removeCallbacksAndMessages(null);
             saveImageToGallery(bitmap);
+        }, dialog -> {
+            DialogUtil.LoginDialog(getContext(), "支付未完成，关闭后无法清空购物车", "确定", "取消", v -> {
+                orderID = "";
+                mHandler.removeCallbacksAndMessages(null);
+                if (payDialog != null && payDialog.isShowing()){
+                    payDialog.dismiss();
+                }
+            });
         });
         if (mDialog != null && mDialog.isShowing()){
             mDialog.dismiss();
@@ -388,7 +427,30 @@ public class ShoppingCartFragment extends BaseFragment implements View.OnClickLi
         if (mDialog != null && mDialog.isShowing()){
             mDialog.dismiss();
         }
+        orderID = "";
         ToastUtil.show(error);
+    }
+
+    /**
+     * 支付回调轮训成功
+     */
+    @Override
+    public void onPayResultSuc(PayResultBean bean) {
+        if (bean.getOrderInfo().getPaymentstatus() == 12){
+            //支付成功
+            orderID = "";
+            mHandler.removeCallbacksAndMessages(null);
+            if (payDialog != null && payDialog.isShowing()){
+                payDialog.dismiss();
+            }
+            //暂无商品
+            mPresenter.initError(mBinding);
+            mCartDate.clear();
+            String jsonStr = GsonUtils.toJson(mCartDate, new TypeToken<Map<String, CartBean>>(){});
+            SPUtils.getInstance(CommonDate.CART).put(SPUtils.getInstance(CommonDate.USER).getString(CommonDate.PHONE, ""),jsonStr);
+            ToastUtil.show("支付成功");
+        }
+//        Log.d("moxiaoting", "bean.getOrderInfo().getPaymentstatus():" + bean.getOrderInfo().getPaymentstatus());
     }
 
     /**

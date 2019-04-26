@@ -10,6 +10,7 @@ import com.guestworker.bean.MyUserBean;
 import com.guestworker.bean.OrderBean;
 import com.guestworker.bean.OrderSaveBean;
 import com.guestworker.bean.PayCodeBean;
+import com.guestworker.bean.PayResultBean;
 import com.guestworker.bean.SystemBean;
 import com.guestworker.bean.UserInfoBean;
 
@@ -92,4 +93,12 @@ public interface APIService {
      */
     @GET("/my/pay/PlaceOrder.do")
     Observable<PayCodeBean> payCode(@Query("tradeNo") String tradeNo,@Query("payType") int payType , @Query("tradeType") String tradeType);
+
+    /**
+     * 用户获取订单明细(用于扫码支付后的回调)
+     */
+    @FormUrlEncoded
+    @POST("/app/my/order/orderInfo.do")
+    Observable<PayResultBean> payResult(@Field("orderID") String orderID ,@Field("userID") String userID);
+
 }

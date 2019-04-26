@@ -2,6 +2,7 @@ package com.guestworker.ui.fragment.shoppingcart;
 
 import com.guestworker.bean.OrderSaveBean;
 import com.guestworker.bean.PayCodeBean;
+import com.guestworker.bean.PayResultBean;
 
 /**
  * @author 莫小婷
@@ -15,4 +16,6 @@ public interface ShoppingCartView {
 
     void onPaySuccess(PayCodeBean bean);
     void onPayFile(String error);
+
+    void onPayResultSuc(PayResultBean bean);
 }

@@ -38,7 +38,7 @@ public class DialogUtil {
         dialog.setContentView(view);
     }
 
-    public static void payDialog(Context context , Bitmap bitmap, final View.OnClickListener sureListener){
+    public static Dialog payDialog(Context context , Bitmap bitmap, final View.OnClickListener sureListener, final DissListener dissListener){
         AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.dialog);
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_pay,null);
         TextView sure =  view.findViewById(R.id.dialog_sure);
@@ -51,9 +51,20 @@ public class DialogUtil {
             dialog.dismiss();
         });
         ImageView cancle =  view.findViewById(R.id.dialog_cancle);
-        cancle.setOnClickListener(view12 -> dialog.dismiss());
+        cancle.setOnClickListener(view12 ->{
+            if (dissListener != null){
+                dissListener.onClick(dialog);
+            }
+        });
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
         dialog.show();
         dialog.setContentView(view);
+        return dialog;
+    }
+
+    public interface DissListener{
+        void onClick(Dialog dialog);
     }
 
 }
