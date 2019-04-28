@@ -183,8 +183,8 @@ public class ConfirmActivity extends BaseActivity implements View.OnClickListene
         BigDecimal price = new BigDecimal(mBinding.confirmPrice.getText().toString().replace("¥",""));
         BigDecimal newbigdecimal = new BigDecimal(mBinding.confirmNum.getText().toString());
         double totle = price.doubleValue() * newbigdecimal.intValue();
-        BigDecimal code = new BigDecimal(totle);
-        mBinding.confirmMoney.setText( "¥" + code.setScale(2,BigDecimal.ROUND_DOWN));
+        BigDecimal code = new BigDecimal(totle + "");
+        mBinding.confirmMoney.setText( "¥" + code.setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue());
         mBinding.confirmNumber.setText( "x" + newbigdecimal.intValue());
     }
 
