@@ -2,6 +2,7 @@ package com.guestworker.ui.activity.confirm;
 
 import com.guestworker.bean.OrderSaveBean;
 import com.guestworker.bean.PayCodeBean;
+import com.guestworker.bean.PayResultBean;
 
 /**
  * @author 莫小婷
@@ -14,4 +15,6 @@ public interface ConfirmView {
 
     void onPaySuccess(PayCodeBean bean, String tradeType);
     void onPayFile(String error);
+
+    void onPayResultSuc(PayResultBean bean);
 }

@@ -2,7 +2,6 @@ package com.guestworker.ui.fragment.shoppingcart;
 
 import android.Manifest;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
@@ -11,8 +10,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -414,6 +411,9 @@ public class ShoppingCartFragment extends BaseFragment implements View.OnClickLi
         flag = false;
     }
 
+    /**
+     * 下单接口回调
+     */
     @Override
     public void onSuccess(OrderSaveBean bean,String type) {
         //订单生成成功
@@ -431,6 +431,9 @@ public class ShoppingCartFragment extends BaseFragment implements View.OnClickLi
         ToastUtil.show(error);
     }
 
+    /**
+     * 支付二维码回调
+     */
     @Override
     public void onPaySuccess(PayCodeBean bean,String tradeType) {
         if (tradeType.equals("NATIVE")){
@@ -455,6 +458,7 @@ public class ShoppingCartFragment extends BaseFragment implements View.OnClickLi
         }else {
             //app
             DialogUtil.LoginDialog(getContext(), "“客工”想要打开“微信支付”", "打开", "取消", v1 -> {
+                // TODO: 2019/4/20 前往支付
                 PayReq request = new PayReq();
                 request.appId = bean.getData().getAppId();
                 request.partnerId = "1900000109";

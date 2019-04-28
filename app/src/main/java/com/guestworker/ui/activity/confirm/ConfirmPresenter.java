@@ -3,6 +3,7 @@ package com.guestworker.ui.activity.confirm;
 import com.guestworker.bean.OrderBean;
 import com.guestworker.bean.OrderSaveBean;
 import com.guestworker.bean.PayCodeBean;
+import com.guestworker.bean.PayResultBean;
 import com.guestworker.netwrok.Repository;
 import com.trello.rxlifecycle2.LifecycleTransformer;
 
@@ -77,6 +78,25 @@ public class ConfirmPresenter {
                     if (mView != null){
                         mView.onPayFile(throwable.getMessage());
                     }
+                });
+    }
+
+    /**
+     * 支付回调轮训
+     */
+    public void payResult(String orderID , String userID, LifecycleTransformer<PayResultBean> transformer){
+        mRepository.payResult(orderID, userID)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(transformer)
+                .subscribe(payResultBean -> {
+                    if (payResultBean.isSuccess()){
+                        if (mView != null){
+                            mView.onPayResultSuc(payResultBean);
+                        }
+                    }
+                }, throwable -> {
+
                 });
     }
 

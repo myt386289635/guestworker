@@ -6,7 +6,11 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.guestworker.R;
@@ -16,14 +20,17 @@ import com.guestworker.bean.DetailBean;
 import com.guestworker.bean.OrderBean;
 import com.guestworker.bean.OrderSaveBean;
 import com.guestworker.bean.PayCodeBean;
+import com.guestworker.bean.PayResultBean;
 import com.guestworker.databinding.ActivityConfirmBinding;
 import com.guestworker.ui.activity.user.areaMembers.AreaUserActivity;
 import com.guestworker.util.FileManager;
 import com.guestworker.util.QRCodeUtil;
 import com.guestworker.util.ToastUtil;
+import com.guestworker.util.WeakRefHandler;
 import com.guestworker.util.permission.HasPermissionsUtil;
 import com.guestworker.view.dialog.DialogUtil;
 import com.guestworker.view.dialog.ProgressDialogView;
+import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -45,6 +52,21 @@ public class ConfirmActivity extends BaseActivity implements View.OnClickListene
     private DetailBean mDetailBean;
     private Dialog mDialog;
     private AreaUserBean.AreaMemberListBean mBean;
+    private String orderID = "";
+    private Dialog payDialog;
+    private Handler.Callback mCallback = new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            if(msg.what == 100){
+                if (!TextUtils.isEmpty(orderID)){
+                    mPresenter.payResult(orderID,mBean.getUserid() + "",ConfirmActivity.this.bindUntilEvent(ActivityEvent.DESTROY));
+                    mHandler.sendEmptyMessageDelayed(100,1000);
+                }
+            }
+            return true;
+        }
+    };
+    private Handler mHandler = new WeakRefHandler(mCallback, Looper.getMainLooper());
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -194,9 +216,15 @@ public class ConfirmActivity extends BaseActivity implements View.OnClickListene
         }, Manifest.permission.READ_EXTERNAL_STORAGE);
     }
 
+    /**
+     * 下单接口回调
+     */
     @Override
     public void onSuccess(OrderSaveBean bean, String tradeType) {
         //订单生成成功
+        if (tradeType.equals("NATIVE")){
+            orderID = bean.getOrderID();
+        }
         mPresenter.payCode(bean.getOrderID(),tradeType,this.bindToLifecycle());
     }
 
@@ -208,15 +236,26 @@ public class ConfirmActivity extends BaseActivity implements View.OnClickListene
         ToastUtil.show(error);
     }
 
+    /**
+     * 支付二维码回调
+     */
     @Override
     public void onPaySuccess(PayCodeBean bean, String tradeType) {
         if (tradeType.equals("NATIVE")){
+            //打开轮训
+            mHandler.sendEmptyMessage(100);
             int widthPix = (int) getResources().getDimension(R.dimen.x242);
             int heightPix = (int) getResources().getDimension(R.dimen.y242);
             Bitmap bitmap =  QRCodeUtil.createQRImage(bean.getData().getCode_url(),widthPix,heightPix,null);
-            DialogUtil.payDialog(this, bitmap, v12 -> {
+            payDialog = DialogUtil.payDialog(this, bitmap, v12 -> {
+                orderID = "";
+                mHandler.removeCallbacksAndMessages(null);
                 saveImageToGallery(bitmap);
-            }, dialog -> dialog.dismiss());
+            }, dialog -> {
+                orderID = "";
+                mHandler.removeCallbacksAndMessages(null);
+                dialog.dismiss();
+            });
         }else {
             //app
             DialogUtil.LoginDialog(this, "“客工”想要打开“微信支付”", "打开", "取消", v1 -> {
@@ -233,6 +272,23 @@ public class ConfirmActivity extends BaseActivity implements View.OnClickListene
         if (mDialog != null && mDialog.isShowing()){
             mDialog.dismiss();
         }
+        orderID = "";
         ToastUtil.show(error);
+    }
+
+    /**
+     * 支付轮训回调
+     */
+    @Override
+    public void onPayResultSuc(PayResultBean bean) {
+        if (bean.getOrderInfo().getPaymentstatus() == 12){
+            //支付成功
+            orderID = "";
+            mHandler.removeCallbacksAndMessages(null);
+            if (payDialog != null && payDialog.isShowing()){
+                payDialog.dismiss();
+            }
+            ToastUtil.show("支付成功");
+        }
     }
 }
