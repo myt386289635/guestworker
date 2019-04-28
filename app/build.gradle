@@ -20,6 +20,13 @@ android {
         // dex突破65535的限制
         multiDexEnabled true
         multiDexKeepFile file('multiDexKeep.txt')
+
+        //bugly需要
+        ndk {
+            //选择要添加的对应cpu类型的.so库。
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a','x86', 'x86_64'
+            // 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
+        }
     }
     buildTypes {
         release {
@@ -100,4 +107,7 @@ dependencies {
     implementation 'com.google.zxing:core:3.3.3'
     //微信支付
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
+    //bugly集成
+    api 'com.tencent.bugly:crashreport:2.2.0'
+    api 'com.tencent.bugly:nativecrashreport:3.0'
 }
