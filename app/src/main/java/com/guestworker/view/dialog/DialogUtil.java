@@ -67,4 +67,23 @@ public class DialogUtil {
         void onClick(Dialog dialog);
     }
 
+    public static  void SingleDialog(Context context,String titleStr,String sureText , final View.OnClickListener sureListener){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context,R.style.dialog);
+        View view = LayoutInflater.from(context).inflate(R.layout.dialog_single,null);
+        TextView title = view.findViewById(R.id.dialog_title);
+        title.setText(titleStr);
+        TextView sure =  view.findViewById(R.id.dialog_sure);
+        sure.setText(sureText);
+        final Dialog dialog = builder.create();
+        dialog.getWindow().setDimAmount(0.35f);
+        sure.setOnClickListener(v -> {
+            sureListener.onClick(v);
+            dialog.dismiss();
+        });
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+        dialog.show();
+        dialog.setContentView(view);
+    }
+
 }

@@ -43,6 +43,9 @@ import com.guestworker.util.permission.HasPermissionsUtil;
 import com.guestworker.util.sp.CommonDate;
 import com.guestworker.view.dialog.DialogUtil;
 import com.guestworker.view.dialog.ProgressDialogView;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.trello.rxlifecycle2.android.FragmentEvent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -86,6 +89,7 @@ public class ShoppingCartFragment extends BaseFragment implements View.OnClickLi
         }
     };
     private Handler mHandler = new WeakRefHandler(mCallback, Looper.getMainLooper());
+    private IWXAPI mMsgApi;
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -114,6 +118,8 @@ public class ShoppingCartFragment extends BaseFragment implements View.OnClickLi
         mPresenter.setView(this);
         mPresenter.setStatusBarHight(mBinding.statusBar,getContext());
         EventBus.getDefault().register(this);
+        mMsgApi = WXAPIFactory.createWXAPI(getContext(), null);
+        mMsgApi.registerApp("wxfd80aece07456d53");
 
         mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mList = new ArrayList<>();
@@ -449,7 +455,15 @@ public class ShoppingCartFragment extends BaseFragment implements View.OnClickLi
         }else {
             //app
             DialogUtil.LoginDialog(getContext(), "“客工”想要打开“微信支付”", "打开", "取消", v1 -> {
-                // TODO: 2019/4/20 前往支付
+                PayReq request = new PayReq();
+                request.appId = bean.getData().getAppId();
+                request.partnerId = "1900000109";
+                request.prepayId= "1101000000140415649af9fc314aa427";
+                request.packageValue = "Sign=WXPay";
+                request.nonceStr= "1101000000140429eb40476f8896f4c9";
+                request.timeStamp= "1398746574";
+                request.sign= "7FFECB600D7157C5AA49810D2D8F28BC2811827B";
+                mMsgApi.sendReq(request);
             });
         }
         if (mDialog != null && mDialog.isShowing()){

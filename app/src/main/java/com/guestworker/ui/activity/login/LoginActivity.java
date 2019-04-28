@@ -1,6 +1,7 @@
 package com.guestworker.ui.activity.login;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,11 +9,14 @@ import android.view.View;
 
 import com.blankj.utilcode.util.EncryptUtils;
 import com.blankj.utilcode.util.SPUtils;
+import com.guestworker.MyApplication;
 import com.guestworker.R;
 import com.guestworker.base.BaseActivity;
 import com.guestworker.bean.LoginBean;
 import com.guestworker.bean.eventbus.RefreshCartBus;
 import com.guestworker.databinding.ActivityLoginBinding;
+import com.guestworker.ui.activity.home.HomeActivity;
+import com.guestworker.ui.activity.wellcome.WellComeActivity;
 import com.guestworker.util.ToastUtil;
 import com.guestworker.util.sp.CommonDate;
 import com.guestworker.view.dialog.ProgressDialogView;
@@ -33,7 +37,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     private ActivityLoginBinding mBinding;
     private Dialog mDialog;
-
+    private Boolean isWellCome = false;
+    private long exitTime = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,6 +51,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private void initView() {
         mBaseActivityComponent.inject(this);
         mPresenter.setView(this);
+        isWellCome = getIntent().getBooleanExtra("isWellCome",false);
 
         mBinding.loginLogin.setEnabled(false);
         mPresenter.initLoginButton(mBinding.loginNumber,mBinding.loginCode,mBinding.loginLogin);
@@ -62,7 +68,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 mPresenter.login(mBinding.loginNumber.getText().toString(),code,this.bindToLifecycle());
                 break;
             case R.id.title_back:
-                finish();
+                if ((System.currentTimeMillis() - exitTime) > 2000) {
+                    ToastUtil.show("再按一次退出程序");
+                    exitTime = System.currentTimeMillis();
+                } else {
+                    MyApplication.getInstance().exit();
+                }
                 break;
         }
     }
@@ -76,6 +87,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         SPUtils.getInstance(CommonDate.USER).put(CommonDate.PHONE,mBinding.loginNumber.getText().toString());
         EventBus.getDefault().post(new RefreshCartBus());//刷新购物车
         setResult(201);
+        if (isWellCome){
+            startActivity(new Intent(this, HomeActivity.class));
+        }
         finish();
         ToastUtil.show("登录成功");
     }
@@ -86,5 +100,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             mDialog.dismiss();
         }
         ToastUtil.show(error);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if ((System.currentTimeMillis() - exitTime) > 2000) {
+            ToastUtil.show("再按一次退出程序");
+            exitTime = System.currentTimeMillis();
+        } else {
+            MyApplication.getInstance().exit();
+        }
     }
 }

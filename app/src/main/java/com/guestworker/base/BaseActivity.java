@@ -44,6 +44,9 @@ public class BaseActivity extends RxAppCompatActivity {
             //适配9.0刘海
             NotchUtil.notch(this);
         }
+
+        // 添加Activity到堆栈
+        MyApplication.getInstance().addActivity(this);
     }
 
 

@@ -1,5 +1,7 @@
 package com.guestworker.bean;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * @author 莫小婷
  * @create 2019/4/23
@@ -46,6 +48,13 @@ public class PayCodeBean {
          */
 
         private String code_url;
+        private String timeStamp;
+        @SerializedName("package")
+        private String packageX;
+        private String paySign;
+        private String appId;
+        private String signType;
+        private String nonceStr;
 
         public String getCode_url() {
             return code_url;
@@ -53,6 +62,54 @@ public class PayCodeBean {
 
         public void setCode_url(String code_url) {
             this.code_url = code_url;
+        }
+
+        public String getTimeStamp() {
+            return timeStamp;
+        }
+
+        public void setTimeStamp(String timeStamp) {
+            this.timeStamp = timeStamp;
+        }
+
+        public String getPackageX() {
+            return packageX;
+        }
+
+        public void setPackageX(String packageX) {
+            this.packageX = packageX;
+        }
+
+        public String getPaySign() {
+            return paySign;
+        }
+
+        public void setPaySign(String paySign) {
+            this.paySign = paySign;
+        }
+
+        public String getAppId() {
+            return appId;
+        }
+
+        public void setAppId(String appId) {
+            this.appId = appId;
+        }
+
+        public String getSignType() {
+            return signType;
+        }
+
+        public void setSignType(String signType) {
+            this.signType = signType;
+        }
+
+        public String getNonceStr() {
+            return nonceStr;
+        }
+
+        public void setNonceStr(String nonceStr) {
+            this.nonceStr = nonceStr;
         }
     }
 }

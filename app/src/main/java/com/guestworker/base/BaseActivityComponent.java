@@ -9,6 +9,7 @@ import com.guestworker.ui.activity.login.LoginActivity;
 import com.guestworker.ui.activity.shoplist.ListActivity;
 import com.guestworker.ui.activity.user.UserActivity;
 import com.guestworker.ui.activity.user.areaMembers.AreaUserActivity;
+import com.guestworker.ui.activity.wellcome.WellComeActivity;
 
 import dagger.Component;
 
@@ -22,4 +23,5 @@ public interface BaseActivityComponent {
     void inject(UserActivity activity);
     void inject(AreaUserActivity activity);
     void inject(ConfirmActivity activity);
+    void inject(WellComeActivity activity);
 }

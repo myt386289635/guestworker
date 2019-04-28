@@ -1,25 +1,18 @@
 package com.guestworker.ui.activity.home;
 
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
-import com.blankj.utilcode.util.SPUtils;
 import com.guestworker.R;
 import com.guestworker.adapter.HomeAdapter;
 import com.guestworker.base.BaseActivity;
-import com.guestworker.bean.IsLoginBean;
 import com.guestworker.bean.eventbus.CartpageBus;
 import com.guestworker.databinding.ActivityMainBinding;
-import com.guestworker.ui.activity.login.LoginActivity;
 import com.guestworker.ui.fragment.classify.ClassifyFragment;
 import com.guestworker.ui.fragment.mine.MineFragment;
 import com.guestworker.ui.fragment.shoppingcart.ShoppingCartFragment;
 import com.guestworker.util.ToastUtil;
-import com.guestworker.util.cookie.MyCookieJar;
-import com.guestworker.util.sp.CommonDate;
-import com.guestworker.view.dialog.DialogUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -29,7 +22,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class HomeActivity extends BaseActivity implements HomeView {
+public class HomeActivity extends BaseActivity{
 
     @Inject
     HomePresenter mPresenter;
@@ -47,7 +40,6 @@ public class HomeActivity extends BaseActivity implements HomeView {
                 .transparentStatusBar()
                 .statusBarDarkFont(true, 0f)
                 .init();
-        mPresenter.setView(this);
         EventBus.getDefault().register(this);
         initView();
     }
@@ -65,7 +57,6 @@ public class HomeActivity extends BaseActivity implements HomeView {
         mBinding.tabLayout.setupWithViewPager(mBinding.viewPager);
 
         mPresenter.initTabLayout(this, mBinding.tabLayout);
-        mPresenter.isLogin(this.bindToLifecycle());
     }
 
     @Override
@@ -76,33 +67,6 @@ public class HomeActivity extends BaseActivity implements HomeView {
         } else {
             super.onBackPressed();
         }
-    }
-
-    /**
-     * 判断用户是否登陆
-     * @param isLoginBean
-     */
-    @Override
-    public void onisloginSuc(IsLoginBean isLoginBean) {
-        if (isLoginBean.getIsLogin() == 0){
-            //未登录 或者cookie失效
-            if (SPUtils.getInstance(CommonDate.USER).getBoolean(CommonDate.LOGIN,false)){
-                //cookie失效了
-                DialogUtil.LoginDialog(HomeActivity.this, "登录失效了请重新登陆", "好的", "不了", v -> startActivity(new Intent(HomeActivity.this,LoginActivity.class)));
-            }
-            MyCookieJar.getInstance().removeAll();
-            SPUtils.getInstance(CommonDate.USER).clear();
-        }
-    }
-
-    /**
-     * 判断用户是否登陆
-     */
-    @Override
-    public void onisloginFile() {
-        ToastUtil.show("获取用户登陆情况失败");
-//        MyCookieJar.getInstance().removeAll();
-//        SPUtils.getInstance(CommonDate.USER).clear();
     }
 
     @Override

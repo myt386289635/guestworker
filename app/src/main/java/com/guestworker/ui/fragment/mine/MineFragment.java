@@ -87,6 +87,7 @@ public class MineFragment  extends BaseFragment implements View.OnClickListener,
                         MyCookieJar.getInstance().removeAll();
                         SPUtils.getInstance(CommonDate.USER).clear();
                         EventBus.getDefault().post(new RefreshCartBus());//刷新购物车
+                        startActivity(new Intent(getContext(), LoginActivity.class));
                     });
                 }
                 break;
@@ -161,6 +162,10 @@ public class MineFragment  extends BaseFragment implements View.OnClickListener,
      */
     @Override
     public void onInvalid() {
+        if (SPUtils.getInstance(CommonDate.USER).getBoolean(CommonDate.LOGIN, false)) {
+            //cookie失效了
+            DialogUtil.SingleDialog(getContext(), "登录失效,请重新登陆", "好的", v -> startActivity(new Intent(getContext(), LoginActivity.class)));
+        }
         mBinding.mineName.setVisibility(View.INVISIBLE);
         mBinding.mineCustom.setVisibility(View.GONE);
         mBinding.mineLogin.setText("登录");
