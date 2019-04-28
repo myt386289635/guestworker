@@ -139,7 +139,7 @@ public class ClassifyFragment extends BaseFragment implements OnRefreshListener,
         switch (v.getId()){
             case R.id.home_search:
                 // TODO: 2019/4/15 搜索
-//                ToastUtil.show("1.0.0版本不开发");
+                ToastUtil.show("1.0.0版本不开发");
                 break;
         }
     }

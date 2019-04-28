@@ -66,8 +66,7 @@ public class DetailBannerAdapter extends PagerAdapter implements ViewPager.OnPag
 
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_banner, container, false);
         ImageView imageView = (ImageView) view.findViewById(R.id.recommend_img_rotate);
-//        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-//        Glide.with(mContext).load(mAdListBeans.get(position % mAdListBeans.size())).into(imageView);
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         GlideApp.loderImage(mContext,mAdListBeans.get(position % mAdListBeans.size()),imageView,0,0);
         container.addView(view);
         mViewPager.addOnPageChangeListener(this);

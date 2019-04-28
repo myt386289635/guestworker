@@ -68,7 +68,7 @@ public class ClassifyPagerAdapter extends PagerAdapter implements ViewPager.OnPa
 
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_banner, container, false);
         ImageView imageView = (ImageView) view.findViewById(R.id.recommend_img_rotate);
-//        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         if (TextUtils.isEmpty(mAdListBeans.get(position % mAdListBeans.size()))){
             Glide.with(mContext).load(R.mipmap.banner).into(imageView);
         }else {

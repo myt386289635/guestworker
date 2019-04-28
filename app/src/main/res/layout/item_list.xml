@@ -19,6 +19,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
+            android:scaleType="centerCrop"
             android:id="@+id/item_iamge"
             bind:srcRound="@{date.thumbnail}"
             android:layout_marginBottom="@dimen/y48"

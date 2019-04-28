@@ -8,6 +8,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <ImageView
+        android:scaleType="centerCrop"
         android:id="@+id/item_image"
         tools:src="@color/color_E31436"
         android:layout_width="@dimen/x114"
