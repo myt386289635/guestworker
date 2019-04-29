@@ -198,15 +198,15 @@ public class ClassifyFragment extends BaseFragment implements OnRefreshListener,
 
     @Override
     public void onSysSuccess(SystemBean bean) {
-        SPUtils.getInstance().put(CommonDate.IMG_URL,bean.getVariableMap().getImage_path());
-        RetrofitModule.IMG_URL = bean.getVariableMap().getImage_path() + "/";
+        SPUtils.getInstance().put(CommonDate.IMG_URL,bean.getVariableMap().getImageserver_path());
+        RetrofitModule.IMG_URL = bean.getVariableMap().getImageserver_path();
         mPresenter.getDate(this.bindUntilEvent(FragmentEvent.DESTROY_VIEW));
     }
 
     @Override
     public void onSysFile() {
         if (!TextUtils.isEmpty(SPUtils.getInstance().getString(CommonDate.IMG_URL,""))){
-            RetrofitModule.IMG_URL = SPUtils.getInstance().getString(CommonDate.IMG_URL) + "/";
+            RetrofitModule.IMG_URL = SPUtils.getInstance().getString(CommonDate.IMG_URL);
         }else {
             ToastUtil.show("网络请求错误");
         }

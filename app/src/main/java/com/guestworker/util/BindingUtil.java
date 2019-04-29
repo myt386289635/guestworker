@@ -25,7 +25,7 @@ public class BindingUtil {
     @BindingAdapter("bind:srcRound")
     public static void setImage(ImageView imageView, String src){
         if (TextUtils.isEmpty(RetrofitModule.IMG_URL)){
-            src = SPUtils.getInstance().getString(CommonDate.IMG_URL,"")+ "/" + src;
+            src = SPUtils.getInstance().getString(CommonDate.IMG_URL,"") + src;
         }else {
             src = RetrofitModule.IMG_URL + src;
         }
@@ -35,7 +35,7 @@ public class BindingUtil {
     @BindingAdapter("bind:src")
     public static void setImageRound(ImageView imageView, String src){
         if (TextUtils.isEmpty(RetrofitModule.IMG_URL)){
-            src = SPUtils.getInstance().getString(CommonDate.IMG_URL,"")+ "/" + src;
+            src = SPUtils.getInstance().getString(CommonDate.IMG_URL,"") + src;
         }else {
             src = RetrofitModule.IMG_URL + src;
         }
@@ -66,11 +66,11 @@ public class BindingUtil {
 
     @BindingAdapter("bind:web")
     public static void setWeb(WebView webView ,String webString){
-        String head = "<head>" +
-                "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\"> " +
-                "<style>img{max-width: 100%; width:auto; height:auto!important;}</style>" +
-                "</head>";
-        webString = "<html>" + head + "<body>" + webString + "</body></html>";
+//        String head = "<head>" +
+//                "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\"> " +
+//                "<style>img{max-width: 100%; width:auto; height:auto!important;}</style>" +
+//                "</head>";
+//        webString = "<html>" + head + "<body>" + webString + "</body></html>";
         webView.loadDataWithBaseURL(null,
                 webString, "text/html", "utf-8", null);
     }
