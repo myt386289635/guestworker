@@ -64,9 +64,9 @@ public class AreaUserAdapter extends RecyclerView.Adapter<AreaUserAdapter.ViewHo
         viewHolder.mBinding.itemName.setText(mList.get(position).getBean().getUsername());
         viewHolder.mBinding.itemPhone.setText(mList.get(position).getBean().getMobile());
         if (TextUtils.isEmpty(mList.get(position).getBean().getUserheadpath())){
-            GlideApp.loderCircleImage(mContext,R.mipmap.default_img,viewHolder.mBinding.itemImage,0,0);
+            GlideApp.loderCircleImage(mContext,R.mipmap.default_head,viewHolder.mBinding.itemImage,0,0);
         }else {
-            GlideApp.loderCircleImage(mContext,mList.get(position).getBean().getUserheadpath(),viewHolder.mBinding.itemImage,R.mipmap.default_img,0);
+            GlideApp.loderCircleImage(mContext,mList.get(position).getBean().getUserheadpath(),viewHolder.mBinding.itemImage,R.mipmap.default_head,0);
         }
     }
 

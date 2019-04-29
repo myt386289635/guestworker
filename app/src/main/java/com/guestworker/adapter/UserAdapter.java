@@ -51,9 +51,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
         viewHolder.mBinding.itemName.setText(mList.get(position).getUsername());
         viewHolder.mBinding.itemPhone.setText(mList.get(position).getMobile());
         if (TextUtils.isEmpty(mList.get(position).getUserheadpath())){
-            GlideApp.loderCircleImage(mContext,R.mipmap.default_img,viewHolder.mBinding.itemImage,R.mipmap.default_img,0);
+            GlideApp.loderCircleImage(mContext,R.mipmap.default_head,viewHolder.mBinding.itemImage,R.mipmap.default_head,0);
         }else {
-            GlideApp.loderCircleImage(mContext,mList.get(position).getUserheadpath(),viewHolder.mBinding.itemImage,R.mipmap.default_img,0);
+            GlideApp.loderCircleImage(mContext,mList.get(position).getUserheadpath(),viewHolder.mBinding.itemImage,R.mipmap.default_head,0);
         }
         viewHolder.itemView.setOnClickListener(v -> {
             if (mOnItemClick != null){

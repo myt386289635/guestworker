@@ -45,7 +45,7 @@ public class BindingUtil {
     @BindingAdapter("bind:headImg")
     public static void setHeadImg(ImageView imageView, String src){
         if (TextUtils.isEmpty(src)){
-            GlideApp.loderCircleImage(imageView.getContext(), R.mipmap.default_img,imageView, R.color.transparent,R.color.transparent);
+            GlideApp.loderCircleImage(imageView.getContext(), R.mipmap.default_head,imageView, R.color.transparent,R.color.transparent);
         }else {
             GlideApp.loderCircleImage(imageView.getContext(), src,imageView, R.color.transparent,R.color.transparent);
         }

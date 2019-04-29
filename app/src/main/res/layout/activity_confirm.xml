@@ -30,6 +30,7 @@
             bind:listener="@{listener}"/>
 
         <ImageView
+            android:scaleType="centerCrop"
             android:layout_marginRight="@dimen/x24"
             bind:srcRound="@{date.thumbnail}"
             android:id="@+id/confirm_image"
