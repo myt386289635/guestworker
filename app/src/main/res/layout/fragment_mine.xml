@@ -41,7 +41,7 @@
             
             <ImageView
                 android:id="@+id/mine_image"
-                android:src="@mipmap/default_head"
+                android:src="@mipmap/default_img"
                 android:layout_marginLeft="@dimen/x28"
                 android:layout_centerVertical="true"
                 android:layout_width="@dimen/x100"

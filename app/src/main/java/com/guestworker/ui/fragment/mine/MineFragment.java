@@ -129,7 +129,7 @@ public class MineFragment  extends BaseFragment implements View.OnClickListener,
         }else {
             mBinding.mineName.setText(bean.getSalesInfo().getUsername());
         }
-        GlideApp.loderCircleImage(getContext(),bean.getSalesInfo().getUserheadpath(),mBinding.mineImage,R.mipmap.default_head,0);
+        GlideApp.loderCircleImage(getContext(),bean.getSalesInfo().getUserheadpath(),mBinding.mineImage,R.mipmap.default_img,0);
         mBinding.mineLogin.setText("退出账号");
         mBinding.mineCustom.setVisibility(View.VISIBLE);
     }
@@ -147,7 +147,7 @@ public class MineFragment  extends BaseFragment implements View.OnClickListener,
             }else {
                 mBinding.mineName.setText(SPUtils.getInstance(CommonDate.USER).getString(CommonDate.NAME));
             }
-            GlideApp.loderCircleImage(getContext(),SPUtils.getInstance(CommonDate.USER).getString(CommonDate.userheadpath,""),mBinding.mineImage,R.mipmap.default_head,0);
+            GlideApp.loderCircleImage(getContext(),SPUtils.getInstance(CommonDate.USER).getString(CommonDate.userheadpath,""),mBinding.mineImage,R.mipmap.default_img,0);
             mBinding.mineLogin.setText("退出账号");
         }else {
             mBinding.mineName.setVisibility(View.INVISIBLE);
