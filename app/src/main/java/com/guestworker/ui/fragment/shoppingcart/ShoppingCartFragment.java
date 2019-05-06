@@ -29,7 +29,9 @@ import com.guestworker.bean.PayResultBean;
 import com.guestworker.bean.ShoppingCartBean;
 import com.guestworker.bean.eventbus.AddCartBus;
 import com.guestworker.bean.eventbus.RefreshCartBus;
+import com.guestworker.bean.eventbus.Remarkbus;
 import com.guestworker.databinding.FragmentCartBinding;
+import com.guestworker.ui.activity.confirm.RemarkActivity;
 import com.guestworker.ui.activity.user.areaMembers.AreaUserActivity;
 import com.guestworker.util.FileManager;
 import com.guestworker.util.QRCodeUtil;
@@ -358,12 +360,16 @@ public class ShoppingCartFragment extends BaseFragment implements View.OnClickLi
     }
 
     @Override
-    public void onRemark() {
+    public void onRemark(String remark) {
         //备注
         if (mMemberBean == null){
             ToastUtil.show("请选择购买用户");
             return;
         }
+        startActivity(new Intent(getContext(),RemarkActivity.class)
+                .putExtra("isHome",true)
+                .putExtra("content",remark)
+        );
     }
 
     @Override
@@ -417,6 +423,17 @@ public class ShoppingCartFragment extends BaseFragment implements View.OnClickLi
             mMemberBean = bean;
             mAdapter.setUser(true);
             mAdapter.setMemberListBean(bean);
+            mAdapter.notifyDataSetChanged();
+        }
+    }
+
+    /**
+     * 添加备注
+     */
+    @Subscribe
+    public void onRemark(Remarkbus remarkbus){
+        if (remarkbus != null){
+            mAdapter.setRemark(remarkbus.getRemark());
             mAdapter.notifyDataSetChanged();
         }
     }

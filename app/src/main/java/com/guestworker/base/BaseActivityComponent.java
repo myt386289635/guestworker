@@ -1,6 +1,7 @@
 package com.guestworker.base;
 
 import com.guestworker.ui.activity.confirm.ConfirmActivity;
+import com.guestworker.ui.activity.confirm.RemarkActivity;
 import com.guestworker.ui.activity.detail.DetailActivity;
 import com.guestworker.ui.activity.home.HomeActivity;
 import com.guestworker.auto.ActivityScope;
@@ -26,4 +27,5 @@ public interface BaseActivityComponent {
     void inject(ConfirmActivity activity);
     void inject(WellComeActivity activity);
     void inject(CreateAddressActivity activity);
+    void inject(RemarkActivity activity);
 }

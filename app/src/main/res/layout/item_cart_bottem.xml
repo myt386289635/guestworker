@@ -109,11 +109,12 @@
             android:background="@color/color_F5F5F5"/>
 
         <RelativeLayout
-            android:id="@+id/confirm_remark"
+            android:id="@+id/confirm_remarkContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/confirm_remark"
                 android:lineSpacingExtra="@dimen/y6"
                 android:layout_toLeftOf="@+id/confirm_go"
                 android:layout_margin="@dimen/x28"

@@ -181,13 +181,16 @@ public class ConfirmActivity extends BaseActivity implements View.OnClickListene
                 }
 
                 break;
-            case R.id.confirm_remark:
+            case R.id.confirm_remarkContainer:
                 //备注
                 if (mBean == null){
                     ToastUtil.show("请选择购买用户");
                     return;
                 }
-
+                startActivityForResult(new Intent(this,RemarkActivity.class)
+                                .putExtra("isHome",false)
+                                .putExtra("content",mBinding.confirmRemark.getText().toString())
+                        ,334);
                 break;
         }
     }
@@ -214,6 +217,16 @@ public class ConfirmActivity extends BaseActivity implements View.OnClickListene
                 mBinding.confirmUserContainer.setVisibility(View.GONE);
                 mBean = (AreaUserBean.AreaMemberListBean) data.getSerializableExtra("date");
                 if (mBean != null) mBinding.setUser(mBean);
+                break;
+            case 334:
+                //添完备注后返回
+                if (data != null){
+                    if (TextUtils.isEmpty(data.getStringExtra("remark"))){
+                        mBinding.confirmRemark.setText("添加备注");
+                    }else {
+                        mBinding.confirmRemark.setText("备注：" + data.getStringExtra("remark"));
+                    }
+                }
                 break;
         }
     }

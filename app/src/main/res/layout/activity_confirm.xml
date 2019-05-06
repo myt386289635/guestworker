@@ -286,11 +286,12 @@
             android:layout_marginTop="@dimen/y12"
             android:layout_below="@+id/confirm_userAllContainer"
             android:onClick="@{listener.onClick}"
-            android:id="@+id/confirm_remark"
+            android:id="@+id/confirm_remarkContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/confirm_remark"
                 android:lineSpacingExtra="@dimen/y6"
                 android:layout_toLeftOf="@+id/confirm_go"
                 android:layout_margin="@dimen/x28"
@@ -313,14 +314,14 @@
         </RelativeLayout>
 
         <View
-            android:layout_below="@+id/confirm_remark"
+            android:layout_below="@+id/confirm_remarkContainer"
             android:background="@color/color_F5F5F5"
             android:layout_width="match_parent"
             android:layout_height="@dimen/y12"/>
 
         <RelativeLayout
             android:layout_marginTop="@dimen/y12"
-            android:layout_below="@+id/confirm_remark"
+            android:layout_below="@+id/confirm_remarkContainer"
             android:onClick="@{listener.onClick}"
             android:id="@+id/confirm_discountContainer"
             android:layout_width="match_parent"

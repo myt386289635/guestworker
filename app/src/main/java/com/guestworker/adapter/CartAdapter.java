@@ -4,6 +4,7 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,11 @@ public class CartAdapter extends RecyclerView.Adapter{
     private OnItemClick mOnItemClick;
     private Boolean isUser = false;//用户布局展示
     private AreaUserBean.AreaMemberListBean mMemberListBean;
+    private String remark;//备注
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 
     public void setMemberListBean(AreaUserBean.AreaMemberListBean memberListBean) {
         mMemberListBean = memberListBean;
@@ -128,9 +134,9 @@ public class CartAdapter extends RecyclerView.Adapter{
                         mOnItemClick.onDiscount();
                     }
                 });
-                holderBottom.mBottemBinding.confirmRemark.setOnClickListener(v -> {
+                holderBottom.mBottemBinding.confirmRemarkContainer.setOnClickListener(v -> {
                     if (mOnItemClick != null){
-                        mOnItemClick.onRemark();
+                        mOnItemClick.onRemark(holderBottom.mBottemBinding.confirmRemark.getText().toString());
                     }
                 });
                 if (isUser){
@@ -139,6 +145,11 @@ public class CartAdapter extends RecyclerView.Adapter{
                 }else {
                     holderBottom.mBottemBinding.confirmUserContainer.setVisibility(View.VISIBLE);
                     holderBottom.mBottemBinding.confirmConfirmUserContainer.setVisibility(View.GONE);
+                }
+                if (!TextUtils.isEmpty(remark)){
+                    holderBottom.mBottemBinding.confirmRemark.setText("备注：" + remark);
+                }else {
+                    holderBottom.mBottemBinding.confirmRemark.setText("添加备注");
                 }
                 // 立刻刷新界面
                 holderBottom.mBottemBinding.executePendingBindings();
@@ -176,7 +187,7 @@ public class CartAdapter extends RecyclerView.Adapter{
         void onIncrease(int position);
         void onSelect(int position);
         void onUserContainer();
-        void onRemark();
+        void onRemark(String remark);
         void onDiscount();
     }
 }
