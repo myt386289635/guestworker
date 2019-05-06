@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class RetrofitModule {
 
-    public static final String URL = "http://ele.test.out.eascs.com";//正式地址
+    public static final String URL = "http://api.test.out.eascs.com";//正式地址
     public static final String UP_BASE_URL = URL;
     public static String IMG_URL = "";//图片地址（需要从接口里返回）
     public static final String pageSize = "10";
