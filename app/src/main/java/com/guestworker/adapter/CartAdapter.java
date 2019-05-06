@@ -123,6 +123,16 @@ public class CartAdapter extends RecyclerView.Adapter{
                         mOnItemClick.onUserContainer();
                     }
                 });
+                holderBottom.mBottemBinding.confirmDiscountContainer.setOnClickListener(v -> {
+                    if (mOnItemClick != null){
+                        mOnItemClick.onDiscount();
+                    }
+                });
+                holderBottom.mBottemBinding.confirmRemark.setOnClickListener(v -> {
+                    if (mOnItemClick != null){
+                        mOnItemClick.onRemark();
+                    }
+                });
                 if (isUser){
                     holderBottom.mBottemBinding.confirmConfirmUserContainer.setVisibility(View.VISIBLE);
                     holderBottom.mBottemBinding.confirmUserContainer.setVisibility(View.GONE);
@@ -166,5 +176,7 @@ public class CartAdapter extends RecyclerView.Adapter{
         void onIncrease(int position);
         void onSelect(int position);
         void onUserContainer();
+        void onRemark();
+        void onDiscount();
     }
 }

@@ -173,6 +173,22 @@ public class ConfirmActivity extends BaseActivity implements View.OnClickListene
                 bean1.setUserID(mBean.getUserid());
                 mPresenter.orderSave(bean1,"NATIVE",this.bindToLifecycle());
                 break;
+            case R.id.confirm_discountContainer:
+                //优惠券
+                if (mBean == null){
+                    ToastUtil.show("请选择购买用户");
+                    return;
+                }
+
+                break;
+            case R.id.confirm_remark:
+                //备注
+                if (mBean == null){
+                    ToastUtil.show("请选择购买用户");
+                    return;
+                }
+
+                break;
         }
     }
 

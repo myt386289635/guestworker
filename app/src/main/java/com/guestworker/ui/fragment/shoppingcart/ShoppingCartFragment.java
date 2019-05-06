@@ -358,6 +358,24 @@ public class ShoppingCartFragment extends BaseFragment implements View.OnClickLi
     }
 
     @Override
+    public void onRemark() {
+        //备注
+        if (mMemberBean == null){
+            ToastUtil.show("请选择购买用户");
+            return;
+        }
+    }
+
+    @Override
+    public void onDiscount() {
+        //优惠券
+        if (mMemberBean == null){
+            ToastUtil.show("请选择购买用户");
+            return;
+        }
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         EventBus.getDefault().unregister(this);

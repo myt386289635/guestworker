@@ -24,22 +24,23 @@
         <RelativeLayout
             android:id="@+id/confirm_userContainer"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/y114">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/x28"
+                android:layout_margin="@dimen/x28"
                 android:text="选择购买用户"
                 android:textColor="@color/color_DE1A1A1A"
                 android:textSize="15sp"/>
 
 
             <ImageView
+                android:layout_centerVertical="true"
                 android:id="@+id/setting_opinionImage"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:paddingLeft="@dimen/x28"
                 android:paddingRight="@dimen/x28"
@@ -106,6 +107,80 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/y12"
             android:background="@color/color_F5F5F5"/>
+
+        <RelativeLayout
+            android:id="@+id/confirm_remark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:lineSpacingExtra="@dimen/y6"
+                android:layout_toLeftOf="@+id/confirm_go"
+                android:layout_margin="@dimen/x28"
+                android:layout_centerVertical="true"
+                android:textColor="@color/color_DE1A1A1A"
+                android:textSize="15sp"
+                android:text="添加备注"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:id="@+id/confirm_go"
+                android:layout_centerVertical="true"
+                android:padding="@dimen/x28"
+                android:src="@mipmap/right"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </RelativeLayout>
+
+        <View
+            android:background="@color/color_F5F5F5"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y12"/>
+
+        <RelativeLayout
+            android:id="@+id/confirm_discountContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_margin="@dimen/x28"
+                android:layout_centerVertical="true"
+                android:textColor="@color/color_DE1A1A1A"
+                android:textSize="15sp"
+                android:text="优惠券"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/confirm_discount"
+                android:textStyle="bold"
+                android:layout_toLeftOf="@+id/confirm_go1"
+                android:layout_centerVertical="true"
+                android:textColor="@color/color_DC3D27"
+                android:textSize="13sp"
+                android:text="-0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:id="@+id/confirm_go1"
+                android:layout_centerVertical="true"
+                android:padding="@dimen/x28"
+                android:src="@mipmap/right"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </RelativeLayout>
+
+        <View
+            android:background="@color/color_F5F5F5"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y12"/>
 
     </LinearLayout>
 </layout>
