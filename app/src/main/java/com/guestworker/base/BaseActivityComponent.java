@@ -8,6 +8,7 @@ import com.guestworker.netwrok.ApplicationComponent;
 import com.guestworker.ui.activity.login.LoginActivity;
 import com.guestworker.ui.activity.shoplist.ListActivity;
 import com.guestworker.ui.activity.user.UserActivity;
+import com.guestworker.ui.activity.user.address.CreateAddressActivity;
 import com.guestworker.ui.activity.user.areaMembers.AreaUserActivity;
 import com.guestworker.ui.activity.wellcome.WellComeActivity;
 
@@ -24,4 +25,5 @@ public interface BaseActivityComponent {
     void inject(AreaUserActivity activity);
     void inject(ConfirmActivity activity);
     void inject(WellComeActivity activity);
+    void inject(CreateAddressActivity activity);
 }

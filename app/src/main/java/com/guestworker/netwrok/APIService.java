@@ -1,5 +1,6 @@
 package com.guestworker.netwrok;
 
+import com.guestworker.bean.AddressBean;
 import com.guestworker.bean.AreaUserBean;
 import com.guestworker.bean.ClassifyBean;
 import com.guestworker.bean.DetailBean;
@@ -100,5 +101,12 @@ public interface APIService {
     @FormUrlEncoded
     @POST("/app/my/order/orderInfo.do")
     Observable<PayResultBean> payResult(@Field("orderID") String orderID ,@Field("userID") String userID);
+
+    /**
+     * 新增地址
+     */
+    @FormUrlEncoded
+    @POST("/app/my/member/AddAddress.do")
+    Observable<AddressBean> addAddress(@Field("userName")String userName ,@Field("mobile")String mobile,@Field("address")String address,@Field("regionCode")String regionCode,@Field("isDefault")String isDefault,@Field("userId")String userId);
 
 }

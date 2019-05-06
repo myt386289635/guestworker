@@ -1,5 +1,6 @@
 package com.guestworker.netwrok;
 
+import com.guestworker.bean.AddressBean;
 import com.guestworker.bean.AreaUserBean;
 import com.guestworker.bean.ClassifyBean;
 import com.guestworker.bean.DetailBean;
@@ -19,6 +20,9 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.POST;
 
 public class Repository {
 
@@ -112,5 +116,13 @@ public class Repository {
     public Observable<PayResultBean> payResult(String orderID , String userID){
         return mAPIService.payResult(orderID,userID);
     }
+
+    /**
+     * 新增地址
+     */
+    public Observable<AddressBean> addAddress(String userName , String mobile, String address, String regionCode, String userId){
+        return mAPIService.addAddress(userName,mobile,address,regionCode,"1",userId);
+    }
+
 
 }

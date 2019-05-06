@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.aspsine.swipetoloadlayout.OnLoadMoreListener;
@@ -15,8 +16,11 @@ import com.guestworker.base.BaseActivity;
 import com.guestworker.bean.AreaUserBean;
 import com.guestworker.bean.UserBean;
 import com.guestworker.databinding.ActivityUserBinding;
+import com.guestworker.ui.activity.user.address.CreateAddressActivity;
 import com.guestworker.util.ResolRefreshQue;
 import com.guestworker.util.ToastUtil;
+import com.guestworker.view.dialog.DialogUtil;
+import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -74,6 +78,10 @@ public class AreaUserActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.user_save:
                 ///保存
+                if (set == -1){
+                    ToastUtil.show("请选择一个会员");
+                    return;
+                }
                 if (getIntent().getBooleanExtra("isHome",false)){
                     //刷新首页购物车
                     EventBus.getDefault().post(mList.get(set).getBean());
@@ -136,20 +144,33 @@ public class AreaUserActivity extends BaseActivity implements View.OnClickListen
     public void onRefresh() {
         page = 1;
         refersh = true;
-        mPresenter.getAreaMember(this,page + "" , this.bindToLifecycle());
+        mPresenter.getAreaMember(this,page + "" , this.bindUntilEvent(ActivityEvent.DESTROY));
     }
 
     @Override
     public void onLoadMore() {
         page++;
         refersh = false;
-        mPresenter.getAreaMember(this,page + "" , this.bindToLifecycle());
+        mPresenter.getAreaMember(this,page + "" , this.bindUntilEvent(ActivityEvent.DESTROY));
     }
 
     @Override
     public void onItemClick(int position) {
         if (set != -1) {
             mList.get(set).setTag(false);
+        }
+        if (TextUtils.isEmpty(mList.get(position).getBean().getAddress())){
+            //没有地址
+            set = -1;
+            mAdapter.notifyDataSetChanged();
+            DialogUtil.LoginDialog(this, "该用户没有地址，是否添加", "确认", "取消", v1 ->{
+                startActivityForResult(new Intent(AreaUserActivity.this, CreateAddressActivity.class)
+                                .putExtra("userid",mList.get(position).getBean().getUserid())
+                                .putExtra("username",mList.get(position).getBean().getUsername())
+                                .putExtra("mobile",mList.get(position).getBean().getMobile())
+                        ,333);
+            });
+            return;
         }
         if (mList.get(position).getTag()) {
             mList.get(position).setTag(false);
@@ -187,5 +208,21 @@ public class AreaUserActivity extends BaseActivity implements View.OnClickListen
     public void initError() {
         mBinding.netClude.errorContainer.setVisibility(View.VISIBLE);
         mBinding.recyclerView.setVisibility(View.GONE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (resultCode){
+            case 333:
+                if (!mBinding.swipeToLoad.isRefreshEnabled()) {
+                    mBinding.swipeToLoad.setRefreshEnabled(true);
+                    mBinding.swipeToLoad.setRefreshing(true);
+                    mBinding.swipeToLoad.setRefreshEnabled(false);
+                } else {
+                    mBinding.swipeToLoad.setRefreshing(true);
+                }
+                break;
+        }
     }
 }
