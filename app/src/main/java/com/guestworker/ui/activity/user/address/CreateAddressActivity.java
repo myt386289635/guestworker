@@ -87,9 +87,6 @@ public class CreateAddressActivity extends BaseActivity implements View.OnClickL
                         mBinding.editAddress.getText().toString(),
                         cityCode,getIntent().getIntExtra("userid",0) + "", this.bindToLifecycle());
 
-//                setResult(333);
-//                finish();
-//                ToastUtil.show("成功");
                 break;
             case R.id.areaContainer:
                 //选择收货地区
