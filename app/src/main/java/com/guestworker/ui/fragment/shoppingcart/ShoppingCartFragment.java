@@ -31,7 +31,7 @@ import com.guestworker.bean.eventbus.AddCartBus;
 import com.guestworker.bean.eventbus.RefreshCartBus;
 import com.guestworker.bean.eventbus.Remarkbus;
 import com.guestworker.databinding.FragmentCartBinding;
-import com.guestworker.ui.activity.confirm.RemarkActivity;
+import com.guestworker.ui.activity.confirm.remark.RemarkActivity;
 import com.guestworker.ui.activity.user.areaMembers.AreaUserActivity;
 import com.guestworker.util.FileManager;
 import com.guestworker.util.QRCodeUtil;

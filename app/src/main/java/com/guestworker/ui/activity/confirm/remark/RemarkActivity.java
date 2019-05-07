@@ -1,4 +1,4 @@
-package com.guestworker.ui.activity.confirm;
+package com.guestworker.ui.activity.confirm.remark;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;

@@ -22,6 +22,7 @@ import com.guestworker.bean.OrderSaveBean;
 import com.guestworker.bean.PayCodeBean;
 import com.guestworker.bean.PayResultBean;
 import com.guestworker.databinding.ActivityConfirmBinding;
+import com.guestworker.ui.activity.confirm.remark.RemarkActivity;
 import com.guestworker.ui.activity.user.areaMembers.AreaUserActivity;
 import com.guestworker.util.FileManager;
 import com.guestworker.util.QRCodeUtil;

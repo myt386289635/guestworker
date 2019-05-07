@@ -1,7 +1,7 @@
 package com.guestworker.base;
 
 import com.guestworker.ui.activity.confirm.ConfirmActivity;
-import com.guestworker.ui.activity.confirm.RemarkActivity;
+import com.guestworker.ui.activity.confirm.remark.RemarkActivity;
 import com.guestworker.ui.activity.detail.DetailActivity;
 import com.guestworker.ui.activity.home.HomeActivity;
 import com.guestworker.auto.ActivityScope;
