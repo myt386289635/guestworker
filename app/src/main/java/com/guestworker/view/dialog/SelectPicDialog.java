@@ -84,7 +84,7 @@ public class SelectPicDialog extends BottomSheetDialogFragment {
             @Override
             public void hasPermissionsSuccess() {
                 super.hasPermissionsSuccess();
-                mSavePhotoFile = new File(sdDir, "jpcHeadPic_" + System.currentTimeMillis() + ".jpg");
+                mSavePhotoFile = new File(sdDir, "QRCode_" + System.currentTimeMillis() + ".jpg");
                 Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {//7.0及以上
                     Uri uriForFile = FileProvider.getUriForFile(getActivity(), getActivity().getPackageName() + ".provider", mSavePhotoFile);
