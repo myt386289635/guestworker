@@ -22,6 +22,7 @@ import com.guestworker.bean.OrderSaveBean;
 import com.guestworker.bean.PayCodeBean;
 import com.guestworker.bean.PayResultBean;
 import com.guestworker.databinding.ActivityConfirmBinding;
+import com.guestworker.ui.activity.confirm.discount.DiscountActivity;
 import com.guestworker.ui.activity.confirm.remark.RemarkActivity;
 import com.guestworker.ui.activity.user.areaMembers.AreaUserActivity;
 import com.guestworker.util.FileManager;
@@ -68,6 +69,7 @@ public class ConfirmActivity extends BaseActivity implements View.OnClickListene
         }
     };
     private Handler mHandler = new WeakRefHandler(mCallback, Looper.getMainLooper());
+    private String remark = "";//备注
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -148,6 +150,9 @@ public class ConfirmActivity extends BaseActivity implements View.OnClickListene
                 bean.setGoodsInfo(goodsInfoBeans);
                 bean.setAddressID(mBean.getUaid());
                 bean.setUserID(mBean.getUserid());
+                if (!TextUtils.isEmpty(remark)){
+                    bean.setRemark(remark);//备注
+                }
                 mPresenter.orderSave(bean,"APP",this.bindToLifecycle());
                 break;
             case R.id.confirm_pay:
@@ -172,6 +177,9 @@ public class ConfirmActivity extends BaseActivity implements View.OnClickListene
                 bean1.setGoodsInfo(goodsInfoBeans1);
                 bean1.setAddressID(mBean.getUaid());
                 bean1.setUserID(mBean.getUserid());
+                if (!TextUtils.isEmpty(remark)){
+                    bean1.setRemark(remark);//备注
+                }
                 mPresenter.orderSave(bean1,"NATIVE",this.bindToLifecycle());
                 break;
             case R.id.confirm_discountContainer:
@@ -180,7 +188,7 @@ public class ConfirmActivity extends BaseActivity implements View.OnClickListene
                     ToastUtil.show("请选择购买用户");
                     return;
                 }
-
+                startActivityForResult(new Intent(this, DiscountActivity.class),335);
                 break;
             case R.id.confirm_remarkContainer:
                 //备注
@@ -222,10 +230,11 @@ public class ConfirmActivity extends BaseActivity implements View.OnClickListene
             case 334:
                 //添完备注后返回
                 if (data != null){
-                    if (TextUtils.isEmpty(data.getStringExtra("remark"))){
+                    remark = data.getStringExtra("remark");
+                    if (TextUtils.isEmpty(remark)){
                         mBinding.confirmRemark.setText("添加备注");
                     }else {
-                        mBinding.confirmRemark.setText("备注：" + data.getStringExtra("remark"));
+                        mBinding.confirmRemark.setText("备注：" + remark);
                     }
                 }
                 break;

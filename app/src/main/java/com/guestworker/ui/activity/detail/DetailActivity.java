@@ -167,7 +167,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
                     return;
                 }
                 new ShareUtils(this, SHARE_MEDIA.WEIXIN)
-                        .shareWeb(this, RetrofitModule.UP_BASE_URL + "/h5/goodsShare.html?gid=" + mDetailBean.getDefaultgoods().getGid() + "&guideid=" + SPUtils.getInstance(CommonDate.USER).getString(CommonDate.userid,""), mDetailBean.getDefaultgoods().getGname(), mDetailBean.getDefaultgoods().getOverview(), RetrofitModule.IMG_URL + mDetailBean.getDefaultgoods().getThumbnail(), R.mipmap.logo);
+                        .shareWeb(this, RetrofitModule.share_url + "/h5/goodsShare.html?gid=" + mDetailBean.getDefaultgoods().getGid() + "&guideid=" + SPUtils.getInstance(CommonDate.USER).getString(CommonDate.userid,""), mDetailBean.getDefaultgoods().getGname(), mDetailBean.getDefaultgoods().getOverview(), RetrofitModule.IMG_URL + mDetailBean.getDefaultgoods().getThumbnail(), R.mipmap.logo);
                 break;
             case R.id.bottom_car:
                 //加入购物车

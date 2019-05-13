@@ -120,7 +120,7 @@ public class MineFragment  extends BaseFragment implements View.OnClickListener,
 
         SPUtils.getInstance(CommonDate.USER).put(CommonDate.NAME,bean.getSalesInfo().getUsername());
         SPUtils.getInstance(CommonDate.USER).put(CommonDate.userheadpath,bean.getSalesInfo().getUserheadpath());
-        SPUtils.getInstance(CommonDate.USER).put(CommonDate.userid,bean.getSalesInfo().getUserid());
+        SPUtils.getInstance(CommonDate.USER).put(CommonDate.userid,bean.getSalesInfo().getSalesid());
         SPUtils.getInstance(CommonDate.USER).put(CommonDate.salescode,bean.getSalesInfo().getSalescode());
 
         mBinding.mineName.setVisibility(View.VISIBLE);

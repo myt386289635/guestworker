@@ -45,6 +45,15 @@ public class UserInfoBean {
         private String userheadpath;
         private String userid;
         private String username;
+        private String salesid;//导购员id
+
+        public String getSalesid() {
+            return salesid;
+        }
+
+        public void setSalesid(String salesid) {
+            this.salesid = salesid;
+        }
 
         public String getSalescode() {
             return salescode;

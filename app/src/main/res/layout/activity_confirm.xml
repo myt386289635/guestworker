@@ -320,6 +320,7 @@
             android:layout_height="@dimen/y12"/>
 
         <RelativeLayout
+            android:visibility="gone"
             android:layout_marginTop="@dimen/y12"
             android:layout_below="@+id/confirm_remarkContainer"
             android:onClick="@{listener.onClick}"

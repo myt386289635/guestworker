@@ -142,6 +142,7 @@
             android:layout_height="@dimen/y12"/>
 
         <RelativeLayout
+            android:visibility="gone"
             android:id="@+id/confirm_discountContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -179,6 +180,7 @@
         </RelativeLayout>
 
         <View
+            android:visibility="gone"
             android:background="@color/color_F5F5F5"
             android:layout_width="match_parent"
             android:layout_height="@dimen/y12"/>

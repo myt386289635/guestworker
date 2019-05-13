@@ -16,10 +16,10 @@ public class CommonDate {
     public static final String LOGIN = "login_statues";//登录状态 false:未登录  true:登录
     public static final String PHONE = "phone";//登录手机号
     public static final String COOKIE  = "cookie";//cookie
-    public static final String NAME = "name";//用户姓名
-    public static final String userheadpath = "userheadpath";//用户头像
-    public static final String userid = "userid";//用户id
-    public static final String salescode = "salescode";//用户工号
+    public static final String NAME = "name";//客工姓名
+    public static final String userheadpath = "userheadpath";//客工头像
+    public static final String userid = "userid";//客工id
+    public static final String salescode = "salescode";//客工工号
 
 
     //购物车数据

@@ -108,6 +108,10 @@
         <activity android:name=".ui.activity.confirm.remark.RemarkActivity"
                   android:screenOrientation="portrait"/>
 
+        <!--我的优惠券-->
+        <activity android:name=".ui.activity.confirm.discount.DiscountActivity"
+                  android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>

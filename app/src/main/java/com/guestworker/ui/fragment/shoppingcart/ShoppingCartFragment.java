@@ -89,6 +89,7 @@ public class ShoppingCartFragment extends BaseFragment implements View.OnClickLi
     };
     private Handler mHandler = new WeakRefHandler(mCallback, Looper.getMainLooper());
     private IWXAPI mMsgApi;
+    private String remark = "";//备注
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -165,6 +166,9 @@ public class ShoppingCartFragment extends BaseFragment implements View.OnClickLi
                     bean.setGoodsInfo(goodsInfoBeans);
                     bean.setAddressID(mMemberBean.getUaid());
                     bean.setUserID(mMemberBean.getUserid());
+                    if (!TextUtils.isEmpty(remark)){
+                        bean.setRemark(remark);//备注
+                    }
                     mPresenter.orderSave(bean,"APP",this.bindToLifecycle());
                 }else {
                     //删除
@@ -215,6 +219,9 @@ public class ShoppingCartFragment extends BaseFragment implements View.OnClickLi
                 bean.setGoodsInfo(goodsInfoBeans);
                 bean.setAddressID(mMemberBean.getUaid());
                 bean.setUserID(mMemberBean.getUserid());
+                if (!TextUtils.isEmpty(remark)){
+                    bean.setRemark(remark);//备注
+                }
                 mPresenter.orderSave(bean,"NATIVE",this.bindToLifecycle());
                 break;
             case R.id.cart_selectContainer:
@@ -433,7 +440,8 @@ public class ShoppingCartFragment extends BaseFragment implements View.OnClickLi
     @Subscribe
     public void onRemark(Remarkbus remarkbus){
         if (remarkbus != null){
-            mAdapter.setRemark(remarkbus.getRemark());
+            remark = remarkbus.getRemark();
+            mAdapter.setRemark(remark);
             mAdapter.notifyDataSetChanged();
         }
     }

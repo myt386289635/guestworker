@@ -11,7 +11,16 @@ public class OrderBean {
 
     private String addressID;
     private int userID;
+    private String remark;
     private List<GoodsInfoBean> goodsInfo;
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 
     public String getAddressID() {
         return addressID;
