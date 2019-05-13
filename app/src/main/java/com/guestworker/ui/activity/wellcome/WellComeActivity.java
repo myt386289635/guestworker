@@ -18,6 +18,7 @@ import com.guestworker.util.cookie.MyCookieJar;
 import com.guestworker.util.permission.HasPermissionsUtil;
 import com.guestworker.util.sp.CommonDate;
 import com.trello.rxlifecycle2.android.ActivityEvent;
+import com.yanzhenjie.permission.Permission;
 
 import javax.inject.Inject;
 
@@ -107,7 +108,7 @@ public class WellComeActivity extends BaseActivity implements HomeView {
                 mPresenter.isLogin(WellComeActivity.this.bindUntilEvent(ActivityEvent.DESTROY));
             }
 
-        }, Manifest.permission.READ_EXTERNAL_STORAGE);
+        }, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA);
     }
 
     @Override

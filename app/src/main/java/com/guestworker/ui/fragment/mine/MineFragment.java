@@ -1,5 +1,8 @@
 package com.guestworker.ui.fragment.mine;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.text.TextUtils;
@@ -15,6 +18,8 @@ import com.guestworker.bean.eventbus.RefreshCartBus;
 import com.guestworker.databinding.FragmentMineBinding;
 import com.guestworker.ui.activity.login.LoginActivity;
 import com.guestworker.ui.activity.user.UserActivity;
+import com.guestworker.ui.activity.user.info.InfoActivity;
+import com.guestworker.ui.activity.user.invitation.InvitationActivity;
 import com.guestworker.util.ToastUtil;
 import com.guestworker.util.cookie.MyCookieJar;
 import com.guestworker.util.glide.GlideApp;
@@ -66,7 +71,9 @@ public class MineFragment  extends BaseFragment implements View.OnClickListener,
             //未登录
             mBinding.mineName.setVisibility(View.INVISIBLE);
             mBinding.mineCustom.setVisibility(View.GONE);
+            mBinding.mineInvitation.setVisibility(View.GONE);
             mBinding.mineCode.setVisibility(View.INVISIBLE);
+            mBinding.mineCopy.setVisibility(View.GONE);
             mBinding.mineLogin.setText("登录");
         }
     }
@@ -74,6 +81,20 @@ public class MineFragment  extends BaseFragment implements View.OnClickListener,
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.mine_invitation:
+                //邀请好友
+                startActivity(new Intent(getContext(),InvitationActivity.class));
+                break;
+            case R.id.mine_infoContainer:
+                //个人资料
+                startActivity(new Intent(getContext(),InfoActivity.class));
+                break;
+            case R.id.mine_copy:
+                ClipboardManager clip = (ClipboardManager)getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clipData = ClipData.newPlainText("kegong", mBinding.mineCode.getText().toString().replace("邀请码：",""));
+                clip.setPrimaryClip(clipData);
+                ToastUtil.show("复制成功");
+                break;
             case R.id.mine_login:
                 if (mBinding.mineLogin.getText().toString().equals("登录")){
                     //登录
@@ -83,7 +104,9 @@ public class MineFragment  extends BaseFragment implements View.OnClickListener,
                     DialogUtil.LoginDialog(getContext(), "您确定要退出登录吗？", "确定", "取消", v1 -> {
                         mBinding.mineName.setVisibility(View.INVISIBLE);
                         mBinding.mineCode.setVisibility(View.INVISIBLE);
+                        mBinding.mineCopy.setVisibility(View.GONE);
                         mBinding.mineCustom.setVisibility(View.GONE);
+                        mBinding.mineInvitation.setVisibility(View.GONE);
                         mBinding.mineLogin.setText("登录");
                         ToastUtil.show("退出登录成功");
                         MyCookieJar.getInstance().removeAll();
@@ -124,9 +147,11 @@ public class MineFragment  extends BaseFragment implements View.OnClickListener,
         SPUtils.getInstance(CommonDate.USER).put(CommonDate.userheadpath,bean.getSalesInfo().getUserheadpath());
         SPUtils.getInstance(CommonDate.USER).put(CommonDate.userid,bean.getSalesInfo().getSalesid());
         SPUtils.getInstance(CommonDate.USER).put(CommonDate.salescode,bean.getSalesInfo().getSalescode());
+        SPUtils.getInstance(CommonDate.USER).put(CommonDate.buscardpic,bean.getSalesInfo().getBuscardpic());
 
         mBinding.mineName.setVisibility(View.VISIBLE);
         mBinding.mineCode.setVisibility(View.VISIBLE);
+        mBinding.mineCopy.setVisibility(View.VISIBLE);
         if (TextUtils.isEmpty(bean.getSalesInfo().getUsername())){
             mBinding.mineName.setText(editPhone(bean.getSalesInfo().getMobile()));
         }else {
@@ -136,6 +161,7 @@ public class MineFragment  extends BaseFragment implements View.OnClickListener,
         GlideApp.loderCircleImage(getContext(),bean.getSalesInfo().getUserheadpath(),mBinding.mineImage,R.mipmap.default_img,0);
         mBinding.mineLogin.setText("退出账号");
         mBinding.mineCustom.setVisibility(View.VISIBLE);
+        mBinding.mineInvitation.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -146,7 +172,9 @@ public class MineFragment  extends BaseFragment implements View.OnClickListener,
         if (SPUtils.getInstance(CommonDate.USER).getBoolean(CommonDate.LOGIN,false)){
             mBinding.mineName.setVisibility(View.VISIBLE);
             mBinding.mineCode.setVisibility(View.VISIBLE);
+            mBinding.mineCopy.setVisibility(View.VISIBLE);
             mBinding.mineCustom.setVisibility(View.VISIBLE);
+            mBinding.mineInvitation.setVisibility(View.VISIBLE);
             if (TextUtils.isEmpty(SPUtils.getInstance(CommonDate.USER).getString(CommonDate.NAME,""))){
                 mBinding.mineName.setText(editPhone(SPUtils.getInstance(CommonDate.USER).getString(CommonDate.PHONE)));
             }else {
@@ -158,7 +186,9 @@ public class MineFragment  extends BaseFragment implements View.OnClickListener,
         }else {
             mBinding.mineName.setVisibility(View.INVISIBLE);
             mBinding.mineCode.setVisibility(View.INVISIBLE);
+            mBinding.mineCopy.setVisibility(View.GONE);
             mBinding.mineCustom.setVisibility(View.GONE);
+            mBinding.mineInvitation.setVisibility(View.GONE);
             mBinding.mineLogin.setText("登录");
             SPUtils.getInstance(CommonDate.USER).clear();
         }
@@ -175,7 +205,9 @@ public class MineFragment  extends BaseFragment implements View.OnClickListener,
         }
         mBinding.mineName.setVisibility(View.INVISIBLE);
         mBinding.mineCode.setVisibility(View.INVISIBLE);
+        mBinding.mineCopy.setVisibility(View.GONE);
         mBinding.mineCustom.setVisibility(View.GONE);
+        mBinding.mineInvitation.setVisibility(View.GONE);
         mBinding.mineLogin.setText("登录");
         MyCookieJar.getInstance().removeAll();
         SPUtils.getInstance(CommonDate.USER).clear();

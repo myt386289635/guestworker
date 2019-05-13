@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="andorid.permission.MONUN_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <!--友盟需要-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -110,6 +111,14 @@
 
         <!--我的优惠券-->
         <activity android:name=".ui.activity.confirm.discount.DiscountActivity"
+                  android:screenOrientation="portrait"/>
+
+        <!--个人资料-->
+        <activity android:name=".ui.activity.user.info.InfoActivity"
+                  android:screenOrientation="portrait"/>
+
+        <!--邀请好友-->
+        <activity android:name=".ui.activity.user.invitation.InvitationActivity"
                   android:screenOrientation="portrait"/>
 
     </application>

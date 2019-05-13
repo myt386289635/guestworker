@@ -79,7 +79,7 @@ public class CreateAddressActivity extends BaseActivity implements View.OnClickL
                     ToastUtil.show("详细地址不能为空");
                     return;
                 }
-                mDialog = (new ProgressDialogView()).createLoadingDialog(this, "正在请求...");
+                mDialog = (new ProgressDialogView()).createLoadingDialog(this, "");
                 mDialog.show();
                 //新增地址
                 mPresenter.addressAdd(mBinding.editName.getText().toString(),

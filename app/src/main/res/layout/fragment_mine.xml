@@ -36,6 +36,8 @@
             android:layout_height="@dimen/y2"/>
 
         <RelativeLayout
+            android:onClick="@{listener.onClick}"
+            android:id="@+id/mine_infoContainer"
             android:layout_width="match_parent"
             android:layout_height="@dimen/y180">
             
@@ -48,12 +50,12 @@
                 android:layout_height="@dimen/y100"/>
 
             <TextView
+                android:layout_marginTop="@dimen/y6"
                 android:visibility="invisible"
                 android:id="@+id/mine_name"
                 android:layout_marginLeft="@dimen/x18"
                 android:textColor="@color/color_DE1A1A1A"
                 android:textSize="15sp"
-                android:layout_marginTop="@dimen/y8"
                 android:layout_alignTop="@+id/mine_image"
                 android:layout_toRightOf="@+id/mine_image"
                 android:text="158****2686"
@@ -61,17 +63,42 @@
                 android:layout_height="wrap_content"/>
 
             <TextView
+                android:layout_marginBottom="@dimen/y6"
+                android:layout_alignBottom="@+id/mine_image"
                 android:visibility="invisible"
                 android:id="@+id/mine_code"
                 android:textColor="@color/color_ACACAC"
                 android:layout_marginLeft="@dimen/x18"
                 android:layout_toRightOf="@+id/mine_image"
-                android:layout_below="@+id/mine_name"
                 android:textSize="13sp"
                 android:text="邀请码：000000"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
+
+            <TextView
+                android:paddingRight="@dimen/x20"
+                android:paddingLeft="@dimen/x20"
+                android:layout_alignBottom="@+id/mine_image"
+                android:layout_toRightOf="@+id/mine_code"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:textColor="@color/color_white"
+                android:text="复制"
+                android:background="@color/color_4A90E2"
+                android:id="@+id/mine_copy"
+                android:layout_marginLeft="@dimen/x24"
+                android:onClick="@{listener.onClick}"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/y48"/>
+
+            <ImageView
+                android:paddingLeft="@dimen/x28"
+                android:src="@mipmap/right"
+                android:paddingRight="@dimen/x28"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
 
         </RelativeLayout>
 
@@ -100,11 +127,53 @@
             <ImageView
                 android:paddingLeft="@dimen/x28"
                 android:src="@mipmap/right"
-                android:id="@+id/setting_opinionImage"
                 android:paddingRight="@dimen/x28"
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"/>
+
+            <View
+                android:layout_marginRight="@dimen/x28"
+                android:layout_marginLeft="@dimen/x28"
+                android:background="@color/color_F5F5F5"
+                android:layout_alignParentBottom="true"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y2"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:visibility="gone"
+            android:onClick="@{listener.onClick}"
+            android:id="@+id/mine_invitation"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y114">
+
+            <TextView
+                android:layout_marginLeft="@dimen/x28"
+                android:layout_centerVertical="true"
+                android:textColor="@color/color_DE151515"
+                android:textSize="15sp"
+                android:text="邀请好友"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+            <ImageView
+                android:paddingLeft="@dimen/x28"
+                android:src="@mipmap/right"
+                android:paddingRight="@dimen/x28"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+
+            <View
+                android:layout_marginRight="@dimen/x28"
+                android:layout_marginLeft="@dimen/x28"
+                android:background="@color/color_F5F5F5"
+                android:layout_alignParentBottom="true"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y2"/>
 
         </RelativeLayout>
 

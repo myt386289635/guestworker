@@ -4,6 +4,7 @@ import com.guestworker.bean.AddressBean;
 import com.guestworker.bean.AreaUserBean;
 import com.guestworker.bean.ClassifyBean;
 import com.guestworker.bean.DetailBean;
+import com.guestworker.bean.InvitationBean;
 import com.guestworker.bean.IsLoginBean;
 import com.guestworker.bean.ListBean;
 import com.guestworker.bean.LoginBean;
@@ -13,16 +14,21 @@ import com.guestworker.bean.OrderSaveBean;
 import com.guestworker.bean.PayCodeBean;
 import com.guestworker.bean.PayResultBean;
 import com.guestworker.bean.SystemBean;
+import com.guestworker.bean.UploadFileBean;
 import com.guestworker.bean.UserInfoBean;
 
 import java.util.Map;
 
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
@@ -109,4 +115,16 @@ public interface APIService {
     @POST("/app/my/member/AddAddress.do")
     Observable<AddressBean> addAddress(@Field("userName")String userName ,@Field("mobile")String mobile,@Field("address")String address,@Field("regionCode")String regionCode,@Field("isDefault")String isDefault,@Field("userId")String userId);
 
+    /**
+     * 获取客工邀请码和生成二维码的url
+     */
+    @GET("/app/my/sales/salescode.do")
+    Observable<InvitationBean> salescode();
+
+    /**
+     * 上传图片
+     */
+    @Multipart
+    @POST("/app/my/UploadFile.do")
+    Observable<UploadFileBean> uploadFile(@Part("uploadFileType") int uploadFileType, @Part("id") int id, @Part MultipartBody.Part importFile);
 }

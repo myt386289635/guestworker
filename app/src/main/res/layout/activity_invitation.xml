@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:bind="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+
+    <data>
+        <variable
+            name="listener"
+            type="android.view.View.OnClickListener"/>
+
+    </data>
+
+    <RelativeLayout
+        android:background="@color/color_white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include  android:id="@+id/in_clude"
+                  layout="@layout/common_title"
+                  bind:listener="@{listener}"/>
+        
+        <ImageView
+            android:id="@+id/invitation_logo"
+            android:layout_marginTop="@dimen/y140"
+            android:layout_below="@+id/in_clude"
+            android:layout_centerHorizontal="true"
+            android:src="@mipmap/logo"
+            android:layout_width="@dimen/x100"
+            android:layout_height="@dimen/y100"/>
+
+        <TextView
+            android:id="@+id/invitation_name"
+            android:layout_marginTop="@dimen/y20"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/invitation_logo"
+            android:textColor="@color/color_DE090909"
+            android:text="@string/app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:id="@+id/invitation_code"
+            tools:src="@color/color_DE090909"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/y30"
+            android:layout_below="@+id/invitation_name"
+            android:layout_width="@dimen/x242"
+            android:layout_height="@dimen/x242"/>
+
+
+        <LinearLayout
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/y30"
+            android:layout_below="@+id/invitation_code"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_marginBottom="@dimen/y6"
+                android:id="@+id/mine_code"
+                android:textColor="@color/color_ACACAC"
+                android:textSize="13sp"
+                android:text="邀请码：000000"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+            <TextView
+                android:paddingRight="@dimen/x20"
+                android:paddingLeft="@dimen/x20"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:textColor="@color/color_white"
+                android:text="复制"
+                android:background="@color/color_4A90E2"
+                android:id="@+id/mine_copy"
+                android:layout_marginLeft="@dimen/x24"
+                android:onClick="@{listener.onClick}"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/y48"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/invitation_share"
+            android:onClick="@{listener.onClick}"
+            android:layout_marginBottom="@dimen/y50"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="@dimen/x56"
+            android:layout_marginLeft="@dimen/x56"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:background="@color/color_4A90E2"
+            android:text="分享到微信"
+            android:textColor="@color/color_white"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y80"/>
+
+    </RelativeLayout>
+</layout>

@@ -1,9 +1,11 @@
 package com.guestworker.netwrok;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.guestworker.bean.AddressBean;
 import com.guestworker.bean.AreaUserBean;
 import com.guestworker.bean.ClassifyBean;
 import com.guestworker.bean.DetailBean;
+import com.guestworker.bean.InvitationBean;
 import com.guestworker.bean.IsLoginBean;
 import com.guestworker.bean.ListBean;
 import com.guestworker.bean.LoginBean;
@@ -13,16 +15,18 @@ import com.guestworker.bean.OrderSaveBean;
 import com.guestworker.bean.PayCodeBean;
 import com.guestworker.bean.PayResultBean;
 import com.guestworker.bean.SystemBean;
+import com.guestworker.bean.UploadFileBean;
 import com.guestworker.bean.UserInfoBean;
+import com.guestworker.util.sp.CommonDate;
 
 import java.util.Map;
 
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.POST;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 public class Repository {
 
@@ -124,5 +128,19 @@ public class Repository {
         return mAPIService.addAddress(userName,mobile,address,regionCode,"1",userId);
     }
 
+    /**
+     * 获取客工邀请码和生成二维码的url
+     */
+    public Observable<InvitationBean> salescode(){
+        return mAPIService.salescode();
+    }
 
+    /**
+     * 上传图片
+     */
+    public Observable<UploadFileBean> uploadFile(MultipartBody.Part importFile){
+//        RequestBody uploadFileType = RequestBody.create(MediaType.parse("text/plain;charset=UTF-8"), "5");
+//        RequestBody id = RequestBody.create(MediaType.parse("text/plain;charset=UTF-8"), SPUtils.getInstance(CommonDate.USER).getString(CommonDate.userid));
+        return mAPIService.uploadFile(5, Integer.valueOf(SPUtils.getInstance(CommonDate.USER).getString(CommonDate.userid)),importFile);
+    }
 }

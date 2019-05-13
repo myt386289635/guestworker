@@ -20,6 +20,7 @@ public class CommonDate {
     public static final String userheadpath = "userheadpath";//客工头像
     public static final String userid = "userid";//客工id
     public static final String salescode = "salescode";//客工邀请码
+    public static final String buscardpic = "buscardpic";//客工二维码图片
 
 
     //购物车数据

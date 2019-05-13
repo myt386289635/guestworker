@@ -12,6 +12,8 @@ import com.guestworker.ui.activity.shoplist.ListActivity;
 import com.guestworker.ui.activity.user.UserActivity;
 import com.guestworker.ui.activity.user.address.CreateAddressActivity;
 import com.guestworker.ui.activity.user.areaMembers.AreaUserActivity;
+import com.guestworker.ui.activity.user.info.InfoActivity;
+import com.guestworker.ui.activity.user.invitation.InvitationActivity;
 import com.guestworker.ui.activity.wellcome.WellComeActivity;
 
 import dagger.Component;
@@ -30,4 +32,6 @@ public interface BaseActivityComponent {
     void inject(CreateAddressActivity activity);
     void inject(RemarkActivity activity);
     void inject(DiscountActivity activity);
+    void inject(InvitationActivity activity);
+    void inject(InfoActivity activity);
 }

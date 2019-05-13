@@ -3,6 +3,7 @@ package com.guestworker.util.share;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.text.TextUtils;
 
 import com.guestworker.R;
@@ -54,14 +55,14 @@ public class ShareUtils {
     /**
      * 分享图片
      */
-    public void shareImage(final Activity activity, String imageUrl){
+    public void shareImage(final Activity activity, Bitmap imageUrl){
         UMImage image = new UMImage(activity, imageUrl);//网络图片
         image.setThumb(new UMImage(activity, R.mipmap.logo));  //本地缩略图
         image.compressStyle = UMImage.CompressStyle.SCALE;//大小压缩，默认为大小压缩，适合普通很大的图
         image.compressStyle = UMImage.CompressStyle.QUALITY;//质量压缩，适合长图的分享
         new ShareAction(activity)
                 .setPlatform(mSHARE_media)//传入平台
-                .withText("极品城App")
+                .withText(activity.getResources().getString(R.string.app_name))
                 .withMedia(image)
                 .setCallback(shareListener)//分享回调
                 .share();

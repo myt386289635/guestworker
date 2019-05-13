@@ -46,6 +46,15 @@ public class UserInfoBean {
         private String userid;
         private String username;
         private String salesid;//导购员id
+        private String buscardpic;//用户二维码
+
+        public String getBuscardpic() {
+            return buscardpic;
+        }
+
+        public void setBuscardpic(String buscardpic) {
+            this.buscardpic = buscardpic;
+        }
 
         public String getSalesid() {
             return salesid;
