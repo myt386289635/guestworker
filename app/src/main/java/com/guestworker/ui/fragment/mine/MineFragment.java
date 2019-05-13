@@ -66,6 +66,7 @@ public class MineFragment  extends BaseFragment implements View.OnClickListener,
             //未登录
             mBinding.mineName.setVisibility(View.INVISIBLE);
             mBinding.mineCustom.setVisibility(View.GONE);
+            mBinding.mineCode.setVisibility(View.INVISIBLE);
             mBinding.mineLogin.setText("登录");
         }
     }
@@ -81,6 +82,7 @@ public class MineFragment  extends BaseFragment implements View.OnClickListener,
                     //退出登录
                     DialogUtil.LoginDialog(getContext(), "您确定要退出登录吗？", "确定", "取消", v1 -> {
                         mBinding.mineName.setVisibility(View.INVISIBLE);
+                        mBinding.mineCode.setVisibility(View.INVISIBLE);
                         mBinding.mineCustom.setVisibility(View.GONE);
                         mBinding.mineLogin.setText("登录");
                         ToastUtil.show("退出登录成功");
@@ -124,11 +126,13 @@ public class MineFragment  extends BaseFragment implements View.OnClickListener,
         SPUtils.getInstance(CommonDate.USER).put(CommonDate.salescode,bean.getSalesInfo().getSalescode());
 
         mBinding.mineName.setVisibility(View.VISIBLE);
+        mBinding.mineCode.setVisibility(View.VISIBLE);
         if (TextUtils.isEmpty(bean.getSalesInfo().getUsername())){
             mBinding.mineName.setText(editPhone(bean.getSalesInfo().getMobile()));
         }else {
             mBinding.mineName.setText(bean.getSalesInfo().getUsername());
         }
+        mBinding.mineCode.setText("邀请码：" + bean.getSalesInfo().getSalescode());
         GlideApp.loderCircleImage(getContext(),bean.getSalesInfo().getUserheadpath(),mBinding.mineImage,R.mipmap.default_img,0);
         mBinding.mineLogin.setText("退出账号");
         mBinding.mineCustom.setVisibility(View.VISIBLE);
@@ -141,16 +145,19 @@ public class MineFragment  extends BaseFragment implements View.OnClickListener,
     public void onFile() {
         if (SPUtils.getInstance(CommonDate.USER).getBoolean(CommonDate.LOGIN,false)){
             mBinding.mineName.setVisibility(View.VISIBLE);
+            mBinding.mineCode.setVisibility(View.VISIBLE);
             mBinding.mineCustom.setVisibility(View.VISIBLE);
             if (TextUtils.isEmpty(SPUtils.getInstance(CommonDate.USER).getString(CommonDate.NAME,""))){
                 mBinding.mineName.setText(editPhone(SPUtils.getInstance(CommonDate.USER).getString(CommonDate.PHONE)));
             }else {
                 mBinding.mineName.setText(SPUtils.getInstance(CommonDate.USER).getString(CommonDate.NAME));
             }
+            mBinding.mineCode.setText("邀请码：" + SPUtils.getInstance(CommonDate.USER).getString(CommonDate.salescode));
             GlideApp.loderCircleImage(getContext(),SPUtils.getInstance(CommonDate.USER).getString(CommonDate.userheadpath,""),mBinding.mineImage,R.mipmap.default_img,0);
             mBinding.mineLogin.setText("退出账号");
         }else {
             mBinding.mineName.setVisibility(View.INVISIBLE);
+            mBinding.mineCode.setVisibility(View.INVISIBLE);
             mBinding.mineCustom.setVisibility(View.GONE);
             mBinding.mineLogin.setText("登录");
             SPUtils.getInstance(CommonDate.USER).clear();
@@ -167,6 +174,7 @@ public class MineFragment  extends BaseFragment implements View.OnClickListener,
             DialogUtil.SingleDialog(getContext(), "登录失效,请重新登陆", "好的", v -> startActivity(new Intent(getContext(), LoginActivity.class)));
         }
         mBinding.mineName.setVisibility(View.INVISIBLE);
+        mBinding.mineCode.setVisibility(View.INVISIBLE);
         mBinding.mineCustom.setVisibility(View.GONE);
         mBinding.mineLogin.setText("登录");
         MyCookieJar.getInstance().removeAll();

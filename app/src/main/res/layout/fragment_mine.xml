@@ -61,7 +61,7 @@
                 android:layout_height="wrap_content"/>
 
             <TextView
-                android:visibility="gone"
+                android:visibility="invisible"
                 android:id="@+id/mine_code"
                 android:textColor="@color/color_ACACAC"
                 android:layout_marginLeft="@dimen/x18"
