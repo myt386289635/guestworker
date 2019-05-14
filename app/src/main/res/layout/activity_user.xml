@@ -41,6 +41,7 @@
             android:textSize="15sp"/>
 
         <RelativeLayout
+            android:visibility="@{tag ?  View.GONE : View.VISIBLE}"
             android:layout_below="@+id/in_clude"
             android:id="@+id/sreach_head"
             android:layout_width="match_parent"
@@ -114,6 +115,7 @@
         </RelativeLayout>
 
         <View
+            android:visibility="@{tag ?  View.GONE : View.VISIBLE}"
             android:id="@+id/sreach_line"
             android:layout_below="@+id/sreach_head"
             android:layout_width="match_parent"
