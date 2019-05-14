@@ -11,7 +11,6 @@ import com.blankj.utilcode.util.SPUtils;
 import com.guestworker.R;
 import com.guestworker.base.BaseActivity;
 import com.guestworker.databinding.ActivityInfoBinding;
-import com.guestworker.netwrok.Repository;
 import com.guestworker.netwrok.RetrofitModule;
 import com.guestworker.util.ImageCompressUtil;
 import com.guestworker.util.glide.GlideApp;

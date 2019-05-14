@@ -63,7 +63,7 @@ public interface APIService {
      * 分页获取运营中心会员，客工app代客下单时选择会员使用 (401)
      */
     @GET("/app/my/area/members.do")
-    Observable<AreaUserBean> areaMembers(@Query("pageon") String pageon , @Query("pageSize") String pageSize);
+    Observable<AreaUserBean> areaMembers(@QueryMap Map<String ,String> map);
 
     /**
      * 用户是否登陆

@@ -68,8 +68,8 @@ public class Repository {
     /**
      * 分页获取运营中心会员，客工app代客下单时选择会员使用
      */
-    public Observable<AreaUserBean> areaMembers(String pageon ){
-        return mAPIService.areaMembers(pageon,RetrofitModule.pageSize);
+    public Observable<AreaUserBean> areaMembers(Map<String ,String> map){
+        return mAPIService.areaMembers(map);
     }
 
     /**

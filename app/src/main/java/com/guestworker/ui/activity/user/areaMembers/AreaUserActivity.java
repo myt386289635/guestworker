@@ -5,8 +5,12 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.EditText;
 
 import com.aspsine.swipetoloadlayout.OnLoadMoreListener;
 import com.aspsine.swipetoloadlayout.OnRefreshListener;
@@ -34,7 +38,7 @@ import javax.inject.Inject;
  * @create 2019/4/19
  * @Describe  代客下单时选择用户
  */
-public class AreaUserActivity extends BaseActivity implements View.OnClickListener, AreaUserView, OnRefreshListener, OnLoadMoreListener, AreaUserAdapter.OnItemClick {
+public class AreaUserActivity extends BaseActivity implements View.OnClickListener, AreaUserView, OnRefreshListener, OnLoadMoreListener, AreaUserAdapter.OnItemClick, TextWatcher {
 
     @Inject
     AreaUserPresenter mPresenter;
@@ -44,6 +48,7 @@ public class AreaUserActivity extends BaseActivity implements View.OnClickListen
     private int set = -1;//选择的位置
     private int page = 1;
     private Boolean refersh = true;
+    private String searchVal = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,6 +70,7 @@ public class AreaUserActivity extends BaseActivity implements View.OnClickListen
         mBinding.recyclerView.setAdapter(mAdapter);
 
         ResolRefreshQue.solveScoll(mBinding.recyclerView,mBinding.swipeToLoad);
+        mBinding.sreachEdit.addTextChangedListener(this);
         mBinding.swipeToLoad.setOnRefreshListener(this);
         mBinding.swipeToLoad.setOnLoadMoreListener(this);
         mBinding.swipeToLoad.setRefreshing(true);
@@ -91,6 +97,25 @@ public class AreaUserActivity extends BaseActivity implements View.OnClickListen
                 setResult(201,intent);
                 finish();
                 break;
+            case R.id.sreach_sreach:
+                //搜索会员
+                if (TextUtils.isEmpty(mBinding.sreachEdit.getText().toString().trim())) {
+                    ToastUtil.show("请输入搜索内容");
+                    return;
+                }
+                searchVal = mBinding.sreachEdit.getText().toString().trim();
+                if (!mBinding.swipeToLoad.isRefreshEnabled()) {
+                    mBinding.swipeToLoad.setRefreshEnabled(true);
+                    mBinding.swipeToLoad.setRefreshing(true);
+                    mBinding.swipeToLoad.setRefreshEnabled(false);
+                } else {
+                    mBinding.swipeToLoad.setRefreshing(true);
+                }
+                break;
+            case R.id.sreach_close:
+                //清空搜索框
+                mBinding.sreachEdit.setText("");
+                break;
         }
     }
 
@@ -107,6 +132,7 @@ public class AreaUserActivity extends BaseActivity implements View.OnClickListen
             mBinding.netClude.errorContainer.setVisibility(View.GONE);
             if(refersh){
                 mList.clear();
+                set = -1;
             }
             for (int i = 0; i < areaUserBean.getAreaMemberList().size(); i++) {
                 UserBean userBean = new UserBean(false,areaUserBean.getAreaMemberList().get(i));
@@ -144,14 +170,14 @@ public class AreaUserActivity extends BaseActivity implements View.OnClickListen
     public void onRefresh() {
         page = 1;
         refersh = true;
-        mPresenter.getAreaMember(this,page + "" , this.bindUntilEvent(ActivityEvent.DESTROY));
+        mPresenter.getAreaMember(this,page + "" ,searchVal, this.bindUntilEvent(ActivityEvent.DESTROY));
     }
 
     @Override
     public void onLoadMore() {
         page++;
         refersh = false;
-        mPresenter.getAreaMember(this,page + "" , this.bindUntilEvent(ActivityEvent.DESTROY));
+        mPresenter.getAreaMember(this,page + "",searchVal, this.bindUntilEvent(ActivityEvent.DESTROY));
     }
 
     @Override
@@ -224,5 +250,59 @@ public class AreaUserActivity extends BaseActivity implements View.OnClickListen
                 }
                 break;
         }
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        if (TextUtils.isEmpty(mBinding.sreachEdit.getText().toString().trim())) {
+            mBinding.sreachClose.setVisibility(View.GONE);
+            searchVal = "";
+            if (!mBinding.swipeToLoad.isRefreshEnabled()) {
+                mBinding.swipeToLoad.setRefreshEnabled(true);
+                mBinding.swipeToLoad.setRefreshing(true);
+                mBinding.swipeToLoad.setRefreshEnabled(false);
+            } else {
+                mBinding.swipeToLoad.setRefreshing(true);
+            }
+        } else {
+            mBinding.sreachClose.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            View view = getCurrentFocus();
+            if (isHideInput(view, ev)) {
+                showKeyboard(false);
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+    private boolean isHideInput(View v, MotionEvent ev) {
+        if (v != null && (v instanceof EditText)) {
+            int[] l = {0, 0};
+            v.getLocationInWindow(l);
+            int left = l[0], top = l[1], bottom = top + v.getHeight(), right = left
+                    + v.getWidth();
+            if (ev.getX() > left && ev.getX() < right && ev.getY() > top
+                    && ev.getY() < bottom) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+        return false;
     }
 }

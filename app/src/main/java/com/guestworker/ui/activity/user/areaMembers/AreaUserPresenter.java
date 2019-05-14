@@ -1,14 +1,19 @@
 package com.guestworker.ui.activity.user.areaMembers;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.guestworker.bean.AreaUserBean;
 import com.guestworker.bean.MyUserBean;
 import com.guestworker.netwrok.Repository;
+import com.guestworker.netwrok.RetrofitModule;
 import com.guestworker.ui.activity.user.UserView;
 import com.guestworker.util.ToastUtil;
 import com.guestworker.util.cookie.HttpResponseFunc;
 import com.trello.rxlifecycle2.LifecycleTransformer;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -37,8 +42,14 @@ public class AreaUserPresenter {
     /**
      * 选择用户列表
      */
-    public void getAreaMember(Context context,String pageon, LifecycleTransformer<AreaUserBean> transformer){
-        mRepository.areaMembers(pageon)
+    public void getAreaMember(Context context,String pageon,String searchVal, LifecycleTransformer<AreaUserBean> transformer){
+        Map<String,String> map = new HashMap<>();
+        map.put("pageon",pageon);
+        map.put("pageSize", RetrofitModule.pageSize);
+        if (!TextUtils.isEmpty(searchVal)){
+            map.put("searchVal",searchVal);
+        }
+        mRepository.areaMembers(map)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(transformer)
