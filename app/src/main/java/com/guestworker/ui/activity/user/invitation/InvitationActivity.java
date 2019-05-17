@@ -18,6 +18,7 @@ import com.guestworker.util.QRCodeUtil;
 import com.guestworker.util.ToastUtil;
 import com.guestworker.util.share.ShareUtils;
 import com.guestworker.view.dialog.ProgressDialogView;
+import com.guestworker.view.dialog.ShareBoardDialog;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
@@ -28,13 +29,14 @@ import javax.inject.Inject;
  * @create 2019/5/13
  * @Describe 邀请好友
  */
-public class InvitationActivity extends BaseActivity implements View.OnClickListener, InvitationView {
+public class InvitationActivity extends BaseActivity implements View.OnClickListener, InvitationView, ShareBoardDialog.onShareListener {
 
     @Inject
     InvitationPresenter mPresenter;
     private ActivityInvitationBinding mBinding;
     private Dialog mDialog;
     private Bitmap bitmap;
+    private ShareBoardDialog mShareBoardDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,8 +68,13 @@ public class InvitationActivity extends BaseActivity implements View.OnClickList
                     ToastUtil.show("二维码生成失败无法分享");
                     return;
                 }
-                new ShareUtils(this, SHARE_MEDIA.WEIXIN)
-                        .shareImage(this,bitmap);
+                if (mShareBoardDialog == null) {
+                    mShareBoardDialog = new ShareBoardDialog();
+                    mShareBoardDialog.setOnShareListener(this);
+                }
+                if (!mShareBoardDialog.isAdded()) {
+                    mShareBoardDialog.show(getSupportFragmentManager(), "ShareBoardDialog");
+                }
                 break;
         }
     }
@@ -99,5 +106,11 @@ public class InvitationActivity extends BaseActivity implements View.OnClickList
             mDialog.dismiss();
         }
         ToastUtil.show("信息请求失败");
+    }
+
+    @Override
+    public void share(SHARE_MEDIA share_media) {
+        new ShareUtils(this, share_media)
+                .shareImage(this,bitmap);
     }
 }

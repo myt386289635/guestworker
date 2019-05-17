@@ -15,7 +15,7 @@ public class RetrofitModule {
     public static final String UP_BASE_URL = URL;
     public static String IMG_URL = "";//图片地址（需要从接口里返回）
     public static final String pageSize = "10";
-    public static final String share_url = "http://ele.eletest.eascs.com";
+    public static final String share_url = "https://eletest.eascs.com";
 
     @ApplicationScope
     @Provides

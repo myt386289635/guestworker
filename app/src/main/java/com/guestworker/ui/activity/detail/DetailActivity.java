@@ -37,6 +37,7 @@ import com.guestworker.util.cookie.GsonUtils;
 import com.guestworker.util.share.ShareUtils;
 import com.guestworker.util.sp.CommonDate;
 import com.guestworker.view.dialog.ProgressDialogView;
+import com.guestworker.view.dialog.ShareBoardDialog;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
@@ -54,7 +55,7 @@ import javax.inject.Inject;
  * @create 2019/4/15
  * @Describe 商品详情页面
  */
-public class DetailActivity extends BaseActivity implements View.OnClickListener, DetailView {
+public class DetailActivity extends BaseActivity implements View.OnClickListener, DetailView, ShareBoardDialog.onShareListener {
 
     @Inject
     DetailPresenter mPresenter;
@@ -84,6 +85,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
     private Dialog mDialog;
     private DetailBean mDetailBean;//传递给确认订单页
     private Map<String,CartBean> mCartDate;
+    private ShareBoardDialog mShareBoardDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -166,8 +168,13 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
                     ToastUtil.show("数据获取错误，请重新打开页面");
                     return;
                 }
-                new ShareUtils(this, SHARE_MEDIA.WEIXIN)
-                        .shareWeb(this, RetrofitModule.share_url + "/h5/goodsShare.html?gid=" + mDetailBean.getDefaultgoods().getGid() + "&guideid=" + SPUtils.getInstance(CommonDate.USER).getString(CommonDate.userid,""), mDetailBean.getDefaultgoods().getGname(), mDetailBean.getDefaultgoods().getOverview(), RetrofitModule.IMG_URL + mDetailBean.getDefaultgoods().getThumbnail(), R.mipmap.logo);
+                if (mShareBoardDialog == null) {
+                    mShareBoardDialog = new ShareBoardDialog();
+                    mShareBoardDialog.setOnShareListener(this);
+                }
+                if (!mShareBoardDialog.isAdded()) {
+                    mShareBoardDialog.show(getSupportFragmentManager(), "ShareBoardDialog");
+                }
                 break;
             case R.id.bottom_car:
                 //加入购物车
@@ -247,6 +254,12 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
         }
         mBinding.netClude.errorContainer.setVisibility(View.VISIBLE);
         ToastUtil.show(error);
+    }
+
+    @Override
+    public void share(SHARE_MEDIA share_media) {
+        new ShareUtils(this, share_media)
+                .shareWeb(this, RetrofitModule.share_url + "/h5/goodsShare.html?gid=" + mDetailBean.getDefaultgoods().getGid() + "&guideid=" + SPUtils.getInstance(CommonDate.USER).getString(CommonDate.userid,""), mDetailBean.getDefaultgoods().getGname(), mDetailBean.getDefaultgoods().getOverview(), RetrofitModule.IMG_URL + mDetailBean.getDefaultgoods().getThumbnail(), R.mipmap.logo);
     }
 
     /******************轮播图需要*********************/
